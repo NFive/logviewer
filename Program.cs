@@ -10,7 +10,19 @@ namespace NFive.LogViewer
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Main(args));
+
+			try
+			{
+				Application.Run(new Main(args));
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(
+					$"An unhandled fatal exception has occurred:{Environment.NewLine}{ex.Message}{Environment.NewLine}{Environment.NewLine}Application will now exit.",
+					"NFive Log Viewer",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Error);
+			}
 		}
 	}
 }
