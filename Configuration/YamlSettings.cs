@@ -8,9 +8,11 @@ namespace NFive.LogViewer.Configuration
 	[PublicAPI]
 	public abstract class YamlSettings<T> : ISettings<T> where T : class, ISettings<T>, new()
 	{
+		// ReSharper disable once StaticMemberInGenericType
 		private static string directory = AppDomain.CurrentDomain.BaseDirectory;
 		private static T instance;
 
+		// ReSharper disable once StaticMemberInGenericType
 		public static string FileName { get; set; } = "settings.yml";
 
 		public static string Directory
@@ -37,12 +39,12 @@ namespace NFive.LogViewer.Configuration
 				try
 				{
 					instance = new DeserializerBuilder()
-						//.WithNamingConvention(new UnderscoredNamingConvention())
 						.WithTypeConverter(new ColorConverter())
 						.WithTypeConverter(new FontConverter())
 						.Build()
 						.Deserialize<T>(File.ReadAllText(Path));
 
+					// ReSharper disable once ThrowExceptionInUnexpectedLocation
 					if (instance == null) throw new FileNotFoundException();
 				}
 				catch
@@ -66,7 +68,6 @@ namespace NFive.LogViewer.Configuration
 		public static void Save()
 		{
 			File.WriteAllText(Path, new SerializerBuilder()
-				//.WithNamingConvention(new UnderscoredNamingConvention())
 				.WithTypeConverter(new ColorConverter())
 				.WithTypeConverter(new FontConverter())
 				.EmitDefaults()

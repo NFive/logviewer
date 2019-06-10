@@ -320,9 +320,7 @@ namespace NFive.LogViewer
 			if (log.Length < 14) return log;
 			if (!log.StartsWith("[")) return log;
 			if (log.Substring(11, 1) != "]") return log;
-			if (!ClientLogPrefix.IsMatch(log.Substring(0, 13))) return log;
-
-			return log.Substring(13);
+			return !ClientLogPrefix.IsMatch(log.Substring(0, 13)) ? log : log.Substring(13);
 		}
 
 		private static Log ParseLine(string log)
@@ -432,7 +430,7 @@ namespace NFive.LogViewer
 			{
 				if (dialog.ShowDialog() != DialogResult.OK) return;
 
-				File.WriteAllText(dialog.FileName, ((RichPanel)this.ActiveControl)?.Content, Encoding.UTF8);
+				File.WriteAllText(dialog.FileName, (this.ActiveControl as RichPanel)?.Content, Encoding.UTF8);
 			}
 		}
 

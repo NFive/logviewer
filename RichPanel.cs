@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NFive.LogViewer.Configuration;
@@ -34,6 +33,7 @@ namespace NFive.LogViewer
 		{
 			InitializeComponent();
 
+			// ReSharper disable once VirtualMemberCallInConstructor
 			this.Text = title;
 			this.ShowHint = state;
 			this.HideOnClose = true;
@@ -46,8 +46,6 @@ namespace NFive.LogViewer
 			this.scintilla.ZoomChanged += (s, a) => StyleEditor(this.theme);
 			this.scintilla.UpdateUI += scintilla_UpdateUI;
 			this.scintilla.StyleNeeded += scintilla_StyleNeeded;
-
-			Scintilla.SetDestroyHandleBehavior(true);
 
 			StyleEditor(this.theme);
 		}
