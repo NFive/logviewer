@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using NFive.LogViewer.Configuration;
 
 namespace NFive.LogViewer
 {
@@ -10,6 +11,8 @@ namespace NFive.LogViewer
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			Settings.FileName = "logviewer.yml";
 
 			try
 			{
