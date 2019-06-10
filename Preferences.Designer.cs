@@ -36,6 +36,8 @@ namespace NFive.LogViewer
             this.labelFileHistory = new System.Windows.Forms.Label();
             this.groupBoxGeneral = new System.Windows.Forms.GroupBox();
             this.groupBoxEditor = new System.Windows.Forms.GroupBox();
+            this.panelTextSelectionColor = new System.Windows.Forms.Panel();
+            this.labelTextSelectionColor = new System.Windows.Forms.Label();
             this.panelEditorBackgroundColor = new System.Windows.Forms.Panel();
             this.labelEditorBackgroundColor = new System.Windows.Forms.Label();
             this.labelMarginTextColor = new System.Windows.Forms.Label();
@@ -83,7 +85,7 @@ namespace NFive.LogViewer
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(293, 455);
+            this.buttonCancel.Location = new System.Drawing.Point(293, 484);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 3;
@@ -94,7 +96,7 @@ namespace NFive.LogViewer
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOk.Location = new System.Drawing.Point(131, 455);
+            this.buttonOk.Location = new System.Drawing.Point(131, 484);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 2;
@@ -155,8 +157,11 @@ namespace NFive.LogViewer
             // 
             // groupBoxEditor
             // 
-            this.groupBoxEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBoxEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxEditor.Controls.Add(this.panelTextSelectionColor);
+            this.groupBoxEditor.Controls.Add(this.labelTextSelectionColor);
             this.groupBoxEditor.Controls.Add(this.panelEditorBackgroundColor);
             this.groupBoxEditor.Controls.Add(this.labelEditorBackgroundColor);
             this.groupBoxEditor.Controls.Add(this.labelMarginTextColor);
@@ -167,10 +172,30 @@ namespace NFive.LogViewer
             this.groupBoxEditor.Controls.Add(this.panelEditorTextColor);
             this.groupBoxEditor.Location = new System.Drawing.Point(12, 112);
             this.groupBoxEditor.Name = "groupBoxEditor";
-            this.groupBoxEditor.Size = new System.Drawing.Size(356, 86);
+            this.groupBoxEditor.Size = new System.Drawing.Size(356, 115);
             this.groupBoxEditor.TabIndex = 4;
             this.groupBoxEditor.TabStop = false;
             this.groupBoxEditor.Text = "Editor";
+            // 
+            // panelTextSelectionColor
+            // 
+            this.panelTextSelectionColor.BackColor = System.Drawing.Color.White;
+            this.panelTextSelectionColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTextSelectionColor.Location = new System.Drawing.Point(137, 81);
+            this.panelTextSelectionColor.Name = "panelTextSelectionColor";
+            this.panelTextSelectionColor.Size = new System.Drawing.Size(25, 25);
+            this.panelTextSelectionColor.TabIndex = 5;
+            this.panelTextSelectionColor.TabStop = true;
+            this.panelTextSelectionColor.Click += new System.EventHandler(this.PanelColor_Click);
+            // 
+            // labelTextSelectionColor
+            // 
+            this.labelTextSelectionColor.AutoSize = true;
+            this.labelTextSelectionColor.Location = new System.Drawing.Point(6, 87);
+            this.labelTextSelectionColor.Name = "labelTextSelectionColor";
+            this.labelTextSelectionColor.Size = new System.Drawing.Size(102, 13);
+            this.labelTextSelectionColor.TabIndex = 4;
+            this.labelTextSelectionColor.Text = "Text selection color:";
             // 
             // panelEditorBackgroundColor
             // 
@@ -195,7 +220,7 @@ namespace NFive.LogViewer
             // labelMarginTextColor
             // 
             this.labelMarginTextColor.AutoSize = true;
-            this.labelMarginTextColor.Location = new System.Drawing.Point(202, 56);
+            this.labelMarginTextColor.Location = new System.Drawing.Point(192, 56);
             this.labelMarginTextColor.Name = "labelMarginTextColor";
             this.labelMarginTextColor.Size = new System.Drawing.Size(88, 13);
             this.labelMarginTextColor.TabIndex = 6;
@@ -235,7 +260,7 @@ namespace NFive.LogViewer
             // labelEditorTextColor
             // 
             this.labelEditorTextColor.AutoSize = true;
-            this.labelEditorTextColor.Location = new System.Drawing.Point(202, 25);
+            this.labelEditorTextColor.Location = new System.Drawing.Point(192, 25);
             this.labelEditorTextColor.Name = "labelEditorTextColor";
             this.labelEditorTextColor.Size = new System.Drawing.Size(83, 13);
             this.labelEditorTextColor.TabIndex = 4;
@@ -254,7 +279,7 @@ namespace NFive.LogViewer
             // 
             // groupBoxLevels
             // 
-            this.groupBoxLevels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxLevels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxLevels.Controls.Add(this.panelLevelTrace);
             this.groupBoxLevels.Controls.Add(this.labelLevelTrace);
             this.groupBoxLevels.Controls.Add(this.labelLevelDebug);
@@ -265,7 +290,7 @@ namespace NFive.LogViewer
             this.groupBoxLevels.Controls.Add(this.labelLevelWarn);
             this.groupBoxLevels.Controls.Add(this.labelLevelError);
             this.groupBoxLevels.Controls.Add(this.panelLevelWarn);
-            this.groupBoxLevels.Location = new System.Drawing.Point(198, 204);
+            this.groupBoxLevels.Location = new System.Drawing.Point(198, 233);
             this.groupBoxLevels.Name = "groupBoxLevels";
             this.groupBoxLevels.Size = new System.Drawing.Size(170, 241);
             this.groupBoxLevels.TabIndex = 6;
@@ -374,6 +399,7 @@ namespace NFive.LogViewer
             // 
             // groupBoxSyntax
             // 
+            this.groupBoxSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBoxSyntax.Controls.Add(this.panelSyntaxPrefix);
             this.groupBoxSyntax.Controls.Add(this.labelSyntaxPrefix);
             this.groupBoxSyntax.Controls.Add(this.panelSyntaxKeyword);
@@ -388,7 +414,7 @@ namespace NFive.LogViewer
             this.groupBoxSyntax.Controls.Add(this.labelSyntaxProperty);
             this.groupBoxSyntax.Controls.Add(this.labelSyntaxOperator);
             this.groupBoxSyntax.Controls.Add(this.panelSyntaxProperty);
-            this.groupBoxSyntax.Location = new System.Drawing.Point(12, 204);
+            this.groupBoxSyntax.Location = new System.Drawing.Point(12, 233);
             this.groupBoxSyntax.Name = "groupBoxSyntax";
             this.groupBoxSyntax.Size = new System.Drawing.Size(170, 241);
             this.groupBoxSyntax.TabIndex = 5;
@@ -538,7 +564,7 @@ namespace NFive.LogViewer
             // buttonApply
             // 
             this.buttonApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonApply.Location = new System.Drawing.Point(212, 455);
+            this.buttonApply.Location = new System.Drawing.Point(212, 484);
             this.buttonApply.Name = "buttonApply";
             this.buttonApply.Size = new System.Drawing.Size(75, 23);
             this.buttonApply.TabIndex = 7;
@@ -549,7 +575,7 @@ namespace NFive.LogViewer
             // buttonReset
             // 
             this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonReset.Location = new System.Drawing.Point(12, 455);
+            this.buttonReset.Location = new System.Drawing.Point(12, 484);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(75, 23);
             this.buttonReset.TabIndex = 8;
@@ -563,7 +589,7 @@ namespace NFive.LogViewer
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(380, 490);
+            this.ClientSize = new System.Drawing.Size(380, 519);
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.groupBoxEditor);
@@ -639,5 +665,7 @@ namespace NFive.LogViewer
 		private System.Windows.Forms.Panel panelSyntaxProperty;
 		private System.Windows.Forms.Button buttonApply;
 		private System.Windows.Forms.Button buttonReset;
+		private System.Windows.Forms.Panel panelTextSelectionColor;
+		private System.Windows.Forms.Label labelTextSelectionColor;
 	}
 }

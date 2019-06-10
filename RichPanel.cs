@@ -225,7 +225,7 @@ namespace NFive.LogViewer
 			this.scintilla.Styles[Style.Default].ForeColor = style.EditorText;
 			this.scintilla.StyleClearAll();
 
-			this.scintilla.SetSelectionBackColor(true, Color.FromArgb(0x264f78));
+			this.scintilla.SetSelectionBackColor(true, style.TextSelection);
 
 			this.scintilla.Styles[Style.LineNumber].BackColor = style.MarginBackground;
 			this.scintilla.Styles[Style.LineNumber].ForeColor = style.MarginText;

@@ -31,6 +31,8 @@ namespace NFive.LogViewer.Configuration
 
 			public Color MarginText = 0xFFBBBBBB.ToColor();
 
+			public Color TextSelection = 0xFF264F78.ToColor();
+
 			public Dictionary<string, Color> LevelColors = new Dictionary<string, Color>
 			{
 				{ "Trace", 0xFF2C2F33.ToColor() },

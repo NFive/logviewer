@@ -84,9 +84,9 @@ namespace NFive.LogViewer
 
 			this.panelEditorBackgroundColor.BackColor = Settings.Instance.Theme.EditorBackground;
 			this.panelEditorTextColor.BackColor = Settings.Instance.Theme.EditorText;
-
 			this.panelMarginBackgroundColor.BackColor = Settings.Instance.Theme.MarginBackground;
 			this.panelMarginTextColor.BackColor = Settings.Instance.Theme.MarginText;
+			this.panelTextSelectionColor.BackColor = Settings.Instance.Theme.TextSelection;
 
 			this.panelSyntaxPrefix.BackColor = Settings.Instance.Theme.SyntaxColors["Prefix"];
 			this.panelSyntaxNumber.BackColor = Settings.Instance.Theme.SyntaxColors["Number"];
@@ -111,9 +111,9 @@ namespace NFive.LogViewer
 
 			Settings.Instance.Theme.EditorBackground = this.panelEditorBackgroundColor.BackColor;
 			Settings.Instance.Theme.EditorText = this.panelEditorTextColor.BackColor;
-
 			Settings.Instance.Theme.MarginBackground = this.panelMarginBackgroundColor.BackColor;
 			Settings.Instance.Theme.MarginText = this.panelMarginTextColor.BackColor;
+			Settings.Instance.Theme.TextSelection = this.panelTextSelectionColor.BackColor;
 
 			Settings.Instance.Theme.SyntaxColors["Prefix"] = this.panelSyntaxPrefix.BackColor;
 			Settings.Instance.Theme.SyntaxColors["Number"] = this.panelSyntaxNumber.BackColor;
