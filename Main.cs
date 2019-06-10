@@ -26,9 +26,16 @@ namespace NFive.LogViewer
 
 			this.dockPanel.Theme = new VS2015LightTheme();
 
-			if (Settings.Instance.ShowWelcomeTab) ShowWelcomeTab();
+			var file = args.FirstOrDefault(File.Exists);
 
-			OpenFile(GetValidFile(args));
+			if (file != null)
+			{
+				OpenFile(file);
+			}
+			else
+			{
+				if (Settings.Instance.ShowWelcomeTab) ShowWelcomeTab();
+			}
 		}
 
 		private void Main_Load(object sender, EventArgs e)
@@ -65,7 +72,9 @@ namespace NFive.LogViewer
 
 		private void Main_DragDrop(object sender, DragEventArgs e)
 		{
-			OpenFile(GetValidFile((string[])e.Data.GetData(DataFormats.FileDrop)));
+			var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+
+			OpenFile(files.FirstOrDefault(File.Exists));
 		}
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -277,11 +286,6 @@ namespace NFive.LogViewer
 
 			// Focus master panel
 			this.panels["Master"].Focus();
-		}
-
-		private static string GetValidFile(IEnumerable<string> files)
-		{
-			return files.FirstOrDefault(f => Path.HasExtension(f) && Path.GetExtension(f) == ".log" && File.Exists(f));
 		}
 
 		private void CreatePanel(string name, DockState state, Action<bool> visibilityCallback)
