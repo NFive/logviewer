@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 16
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogViewer", "LogViewer.csproj", "{57F80FAF-1035-41CA-822E-BB0730EE4643}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogViewer", "src\LogViewer.csproj", "{57F80FAF-1035-41CA-822E-BB0730EE4643}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
