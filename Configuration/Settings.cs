@@ -13,7 +13,9 @@ namespace NFive.LogViewer.Configuration
 
 		public bool RestoreLastFile { get; set; }
 
-		public ushort FileHistory { get; set; } = 10;
+		public ushort FileHistoryCount { get; set; } = 10;
+
+		public List<string> FileHistory { get; set; } = new List<string>();
 
 		public ThemeConfiguration Theme { get; set; } = new ThemeConfiguration();
 

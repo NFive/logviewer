@@ -34,7 +34,36 @@ namespace NFive.LogViewer
 			}
 			else
 			{
-				if (Settings.Instance.ShowWelcomeTab) ShowWelcomeTab();
+				file = Settings.Instance.FileHistory.FirstOrDefault(File.Exists);
+
+				if (file != null)
+				{
+					OpenFile(file);
+				}
+				else
+				{
+					this.statusStrip.SuspendLayout();
+
+					this.openRecentToolStripMenuItem.DropDownItems.Clear();
+
+					foreach (var fileHistory in Settings.Instance.FileHistory)
+					{
+						var item = new ToolStripMenuItem
+						{
+							Text = fileHistory
+						};
+
+						item.Click += (s, a) => OpenFile(((ToolStripMenuItem)s).Text);
+
+						this.openRecentToolStripMenuItem.DropDownItems.Add(item);
+					}
+
+					this.openRecentToolStripMenuItem.Enabled = this.openRecentToolStripMenuItem.DropDownItems.Count > 0;
+
+					this.statusStrip.ResumeLayout();
+
+					if (Settings.Instance.ShowWelcomeTab) ShowWelcomeTab();
+				}
 			}
 		}
 
@@ -72,7 +101,7 @@ namespace NFive.LogViewer
 
 		private void Main_DragDrop(object sender, DragEventArgs e)
 		{
-			var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+			var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
 			OpenFile(files.FirstOrDefault(File.Exists));
 		}
@@ -279,6 +308,31 @@ namespace NFive.LogViewer
 				this.windowsToolStripMenuItem.DropDownItems.Insert(pos, menu);
 			}
 
+			// File history
+			var history = Settings.Instance.FileHistory;
+			history.Insert(0, file);
+			Settings.Instance.FileHistory = history.Distinct().Take(Settings.Instance.FileHistoryCount).ToList();
+
+			this.statusStrip.SuspendLayout();
+
+			this.openRecentToolStripMenuItem.DropDownItems.Clear();
+
+			foreach (var fileHistory in Settings.Instance.FileHistory)
+			{
+				var item = new ToolStripMenuItem
+				{
+					Text = fileHistory
+				};
+
+				item.Click += (s, a) => OpenFile(((ToolStripMenuItem)s).Text);
+
+				this.openRecentToolStripMenuItem.DropDownItems.Add(item);
+			}
+
+			this.openRecentToolStripMenuItem.Enabled = this.openRecentToolStripMenuItem.DropDownItems.Count > 0;
+
+			this.statusStrip.ResumeLayout();
+
 			// Monitor file
 			this.monitor = new LogFileMonitor(file, this);
 			this.monitor.OnLineAddition += LogChanged;
@@ -418,11 +472,11 @@ namespace NFive.LogViewer
 
 		private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!(this.ActiveControl is Panel)) return;
+			if (!(this.ActiveControl is RichPanel)) return;
 
 			using (var dialog = new SaveFileDialog
 			{
-				FileName = $"{((Panel)this.ActiveControl).Text.Replace('|', '-')}",
+				FileName = $"{((RichPanel)this.ActiveControl).Text.Replace('|', '-')}",
 				CreatePrompt = false,
 				AddExtension = false,
 				CheckFileExists = false,
@@ -434,7 +488,7 @@ namespace NFive.LogViewer
 			{
 				if (dialog.ShowDialog() != DialogResult.OK) return;
 
-				File.WriteAllText(dialog.FileName, (this.ActiveControl as RichPanel)?.Content, Encoding.UTF8);
+				File.WriteAllText(dialog.FileName, ((RichPanel) this.ActiveControl)?.Content, Encoding.UTF8);
 			}
 		}
 

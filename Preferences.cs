@@ -80,7 +80,7 @@ namespace NFive.LogViewer
 		{
 			this.checkBoxShowWelcomeTab.Checked = Settings.Instance.ShowWelcomeTab;
 			this.checkBoxRestoreLastFile.Checked = Settings.Instance.RestoreLastFile;
-			this.numericUpDownFileHistory.Value = Settings.Instance.FileHistory;
+			this.numericUpDownFileHistory.Value = Settings.Instance.FileHistoryCount;
 
 			this.panelEditorBackgroundColor.BackColor = Settings.Instance.Theme.EditorBackground;
 			this.panelEditorTextColor.BackColor = Settings.Instance.Theme.EditorText;
@@ -107,7 +107,7 @@ namespace NFive.LogViewer
 		{
 			Settings.Instance.ShowWelcomeTab = this.checkBoxShowWelcomeTab.Checked;
 			Settings.Instance.RestoreLastFile = this.checkBoxRestoreLastFile.Checked;
-			Settings.Instance.FileHistory = Convert.ToUInt16(this.numericUpDownFileHistory.Value);
+			Settings.Instance.FileHistoryCount = Convert.ToUInt16(this.numericUpDownFileHistory.Value);
 
 			Settings.Instance.Theme.EditorBackground = this.panelEditorBackgroundColor.BackColor;
 			Settings.Instance.Theme.EditorText = this.panelEditorTextColor.BackColor;
