@@ -42,6 +42,9 @@ assembly_info:
   assembly_file_version: $(BUILD_VERSION_FILE)
   assembly_informational_version: $(BUILD_VERSION_FRIENDLY)
 
+before_build:
+- nuget restore
+
 build:
   project: LogViewer.sln
   verbosity: minimal
