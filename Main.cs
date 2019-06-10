@@ -36,7 +36,7 @@ namespace NFive.LogViewer
 			{
 				file = Settings.Instance.FileHistory.FirstOrDefault(File.Exists);
 
-				if (file != null)
+				if (Settings.Instance.RestoreLastFile && file != null)
 				{
 					OpenFile(file);
 				}
@@ -135,7 +135,7 @@ namespace NFive.LogViewer
 
 		private void ShowWelcomeTab()
 		{
-			CreatePanel("Welcome", DockState.Document, hidden => { });
+			CreatePanel("Welcome", DockState.Document, null);
 
 			this.panels["Welcome"].Log(new Log
 			{
@@ -238,12 +238,12 @@ namespace NFive.LogViewer
 			this.levelErrorToolStripMenuItem.Enabled = true;
 
 			// Create panels
-			CreatePanel("Master", DockState.Document, hidden => this.masterToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
-			CreatePanel("Trace", DockState.DockBottomAutoHide, hidden => this.levelTraceToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
-			CreatePanel("Debug", DockState.DockBottomAutoHide, hidden => this.levelDebugToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
-			CreatePanel("Info", DockState.DockBottomAutoHide, hidden => this.levelInfoToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
-			CreatePanel("Warn", DockState.DockBottomAutoHide, hidden => this.levelWarnToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
-			CreatePanel("Error", DockState.DockBottomAutoHide, hidden => this.levelErrorToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
+			CreatePanel("Master", DockState.Document, (name, hidden) => this.masterToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
+			CreatePanel("Trace", DockState.DockBottomAutoHide, (name, hidden) => this.levelTraceToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
+			CreatePanel("Debug", DockState.DockBottomAutoHide, (name, hidden) => this.levelDebugToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
+			CreatePanel("Info", DockState.DockBottomAutoHide, (name, hidden) => this.levelInfoToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
+			CreatePanel("Warn", DockState.DockBottomAutoHide, (name, hidden) => this.levelWarnToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
+			CreatePanel("Error", DockState.DockBottomAutoHide, (name, hidden) => this.levelErrorToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
 
 			var stockPanels = new Dictionary<string, RichPanel>(this.panels);
 
@@ -258,18 +258,26 @@ namespace NFive.LogViewer
 			}
 
 			// Menus
-			this.windowsToolStripMenuItem.DropDownItems.Insert(2, new ToolStripSeparator());
+			if (this.panels.Except(stockPanels).Any()) this.windowsToolStripMenuItem.DropDownItems.Insert(2, new ToolStripSeparator());
 
 			var pos = 2;
 
 			foreach (var panel in this.panels.Except(stockPanels).Where(p => !p.Key.StartsWith("Client#")))
 			{
-				this.windowsToolStripMenuItem.DropDownItems.Insert(pos++, new ToolStripMenuItem
+				var item = new ToolStripMenuItem
 				{
 					Text = panel.Key,
 					CheckOnClick = true,
-					Checked = true
-				});
+					Checked = true,
+					Name = panel.Key
+				};
+
+				item.Click += (s, a) =>
+				{
+					TogglePanelMenu(((ToolStripMenuItem)s)?.Name);
+				};
+
+				this.windowsToolStripMenuItem.DropDownItems.Insert(pos++, item);
 			}
 
 			var clients = new Dictionary<string, List<string>>();
@@ -301,7 +309,8 @@ namespace NFive.LogViewer
 					{
 						Text = subMenu,
 						CheckOnClick = true,
-						Checked = true
+						Checked = true,
+						Name = subMenu
 					});
 				}
 
@@ -342,7 +351,7 @@ namespace NFive.LogViewer
 			this.panels["Master"].Focus();
 		}
 
-		private void CreatePanel(string name, DockState state, Action<bool> visibilityCallback)
+		private void CreatePanel(string name, DockState state, Action<string, bool> visibilityCallback)
 		{
 			if (this.panels.ContainsKey(name)) return;
 
@@ -350,7 +359,7 @@ namespace NFive.LogViewer
 
 			panel.VisibleChanged += (s, e) =>
 			{
-				visibilityCallback(panel.IsHidden);
+				visibilityCallback?.Invoke(name, panel.IsHidden);
 
 				this.saveToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible && p.Text != "Welcome");
 				this.copyToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible);
@@ -415,8 +424,13 @@ namespace NFive.LogViewer
 			var log = ParseLine(e.Line);
 			if (log == null) return;
 
-			if (!string.IsNullOrWhiteSpace(log.Prefix)) CreatePanel(log.Prefix, DockState.Document, hidden => { });
-			if (!string.IsNullOrWhiteSpace(log.Level)) CreatePanel(log.Level, DockState.DockBottomAutoHide, hidden => { });
+			if (!string.IsNullOrWhiteSpace(log.Prefix)) CreatePanel(log.Prefix, DockState.Document, (name, hidden) =>
+			{
+				var item = (ToolStripMenuItem)this.windowsToolStripMenuItem.DropDownItems.Find(log.Prefix, true).FirstOrDefault();
+				if (item == null) return;
+				
+				item.Checked = !hidden;
+			});
 
 			this.panels["Master"].Log(log);
 
@@ -488,7 +502,7 @@ namespace NFive.LogViewer
 			{
 				if (dialog.ShowDialog() != DialogResult.OK) return;
 
-				File.WriteAllText(dialog.FileName, ((RichPanel) this.ActiveControl)?.Content, Encoding.UTF8);
+				File.WriteAllText(dialog.FileName, ((RichPanel)this.ActiveControl)?.Content, Encoding.UTF8);
 			}
 		}
 
