@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using NFive.LogViewer.Configuration;
 using ScintillaNET;
@@ -17,6 +18,7 @@ namespace NFive.LogViewer
 		private Settings.ThemeConfiguration theme;
 
 		public event EventHandler<PositionEventArgs> PositionChanged;
+
 		public string Content => this.scintilla.Text;
 
 		public bool WordWrap
@@ -127,9 +129,36 @@ namespace NFive.LogViewer
 				}
 			}
 
-			this.scintilla.LineScroll(endLine, 0);
+			if (ReachedBottom(this.scintilla))
+			{
+				this.scintilla.LineScroll(endLine, 0);
+			}
 
 			this.scintilla.ReadOnly = true;
+		}
+
+		[DllImport("user32")]
+		private static extern int GetScrollInfo(IntPtr hwnd, int nBar, ref ScrollInfo scrollInfo);
+
+		private struct ScrollInfo
+		{
+			public int cbSize;
+			public int fMask;
+			public int min;
+			public int max;
+			public int nPage;
+			public int nPos;
+			public int nTrackPos;
+		}
+
+		private static bool ReachedBottom(Scintilla scintilla)
+		{
+			var scrollInfo = new ScrollInfo();
+			scrollInfo.cbSize = Marshal.SizeOf(scrollInfo);
+			scrollInfo.fMask = 0x10 | 0x1 | 0x2;
+			GetScrollInfo(scintilla.Handle, 1, ref scrollInfo);
+
+			return scrollInfo.max <= scrollInfo.nTrackPos + scrollInfo.nPage;
 		}
 
 		public void ApplyStyles(Settings.ThemeConfiguration style)
