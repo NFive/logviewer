@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Text;
 using System.Timers;
 using JetBrains.Annotations;
 
@@ -78,10 +79,14 @@ namespace NFive.LogViewer
 
 			var newSize = new FileInfo(this.path).Length;
 
-			if (this.size >= newSize) return;
+			if (this.size >= newSize)
+			{
+				this.size = newSize;
+				return;
+			}
 
 			using (var stream = File.Open(this.path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-			using (var sr = new StreamReader(stream))
+			using (var sr = new StreamReader(stream, true))
 			{
 				sr.BaseStream.Seek(this.size, SeekOrigin.Begin);
 

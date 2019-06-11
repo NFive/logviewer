@@ -343,7 +343,7 @@ namespace NFive.LogViewer
 			this.statusStrip.ResumeLayout();
 
 			// Monitor file
-			this.monitor = new LogFileMonitor(file, this);
+			this.monitor = new LogFileMonitor(file, this, Environment.NewLine);
 			this.monitor.OnLineAddition += LogChanged;
 			this.monitor.Start();
 
