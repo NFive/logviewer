@@ -344,7 +344,13 @@ namespace NFive.LogViewer
 
 			// Monitor file
 			this.monitor = new LogFileMonitor(file, this, Environment.NewLine);
-			this.monitor.OnLineAddition += LogChanged;
+			this.monitor.LineAdded += LogChanged;
+			this.monitor.Created += (s, a) =>
+			{
+				OpenFile(file);
+			};
+			this.monitor.Deleted += (s, a) => this.statusToolStripStatusLabel.Text = $"Monitoring {file} (deleted)";
+			this.monitor.Renamed += (s, a) => this.statusToolStripStatusLabel.Text = $"Monitoring {file} (deleted)";
 			this.monitor.Start();
 
 			// Focus master panel
@@ -355,7 +361,7 @@ namespace NFive.LogViewer
 		{
 			if (this.panels.ContainsKey(name)) return;
 
-			var panel = new RichPanel(name, state, Settings.Instance.Theme);
+			var panel = new RichPanel(name, Settings.Instance.Theme);
 
 			panel.VisibleChanged += (s, e) =>
 			{
@@ -378,6 +384,7 @@ namespace NFive.LogViewer
 			};
 
 			panel.Show(this.dockPanel);
+			panel.DockState = state;
 
 			this.panels[name] = panel;
 		}
@@ -428,7 +435,7 @@ namespace NFive.LogViewer
 			{
 				var item = (ToolStripMenuItem)this.windowsToolStripMenuItem.DropDownItems.Find(log.Prefix, true).FirstOrDefault();
 				if (item == null) return;
-				
+
 				item.Checked = !hidden;
 			});
 

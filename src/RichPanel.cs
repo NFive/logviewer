@@ -31,13 +31,12 @@ namespace NFive.LogViewer
 			set => this.scintilla.Zoom = value;
 		}
 
-		public RichPanel(string title, DockState state, Settings.ThemeConfiguration theme)
+		public RichPanel(string title, Settings.ThemeConfiguration theme)
 		{
 			InitializeComponent();
 
 			// ReSharper disable once VirtualMemberCallInConstructor
 			this.Text = title;
-			this.ShowHint = state;
 			this.HideOnClose = true;
 
 			this.theme = theme;

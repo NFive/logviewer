@@ -1,8 +1,6 @@
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Text;
-using System.Timers;
 using JetBrains.Annotations;
 
 namespace NFive.LogViewer
@@ -23,43 +21,71 @@ namespace NFive.LogViewer
 		private readonly object @lock = new object();
 		private readonly string path;
 		private readonly string delimiter;
-		private readonly Timer timer;
+		private readonly FileSystemWatcher watcher;
 		private string buffer;
 		private long size;
 		private bool monitoring;
 
-		public EventHandler<LogFileMonitorLineEventArgs> OnLineAddition;
+		public event EventHandler<EventArgs> Created;
+		public event EventHandler<EventArgs> Deleted;
+		public event EventHandler<EventArgs> Renamed;
+		public event EventHandler<EventArgs> Changed;
+		public event EventHandler<LogFileMonitorLineEventArgs> LineAdded;
 
-		public double Interval
-		{
-			get => this.timer.Interval;
-			set => this.timer.Interval = value;
-		}
-
-		public LogFileMonitor(string path, ISynchronizeInvoke synchronizingObject = null, string delimiter = "\n", double interval = 200)
+		public LogFileMonitor(string path, ISynchronizeInvoke synchronizingObject = null, string delimiter = "\n")
 		{
 			this.path = path;
 			this.delimiter = delimiter;
-
-			this.timer = new Timer
+			this.watcher = new FileSystemWatcher(Path.GetDirectoryName(this.path), Path.GetFileName(this.path))
 			{
-				AutoReset = true,
-				Interval = interval,
 				SynchronizingObject = synchronizingObject
 			};
-			this.timer.Elapsed += Check;
+
+			this.watcher.Changed += (s, a) =>
+			{
+				Check();
+
+				this.Changed?.Invoke(this, EventArgs.Empty);
+			};
+
+			this.watcher.Created += (s, a) =>
+			{
+				this.size = new FileInfo(this.path).Length;
+				this.buffer = string.Empty;
+
+				this.Created?.Invoke(this, EventArgs.Empty);
+			};
+
+			this.watcher.Deleted += (s, a) =>
+			{
+				this.size = 0;
+				this.buffer = string.Empty;
+
+				this.Deleted?.Invoke(this, EventArgs.Empty);
+			};
+
+			this.watcher.Renamed += (s, a) =>
+			{
+				this.size = 0;
+				this.buffer = string.Empty;
+
+				this.Renamed?.Invoke(this, EventArgs.Empty);
+			};
+
+			this.watcher.EnableRaisingEvents = true;
 		}
 
 		public void Start()
 		{
 			this.size = new FileInfo(this.path).Length;
+			this.buffer = string.Empty;
 
-			this.timer.Start();
+			this.watcher.EnableRaisingEvents = true;
 		}
 
 		public void Stop()
 		{
-			this.timer.Stop();
+			this.watcher.EnableRaisingEvents = false;
 		}
 
 		private bool StartMonitoring()
@@ -73,17 +99,13 @@ namespace NFive.LogViewer
 			}
 		}
 
-		private void Check(object s, ElapsedEventArgs e)
+		private void Check()
 		{
 			if (!StartMonitoring()) return;
 
 			var newSize = new FileInfo(this.path).Length;
 
-			if (this.size >= newSize)
-			{
-				this.size = newSize;
-				return;
-			}
+			if (this.size >= newSize) return;
 
 			using (var stream = File.Open(this.path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 			using (var sr = new StreamReader(stream, true))
@@ -114,7 +136,7 @@ namespace NFive.LogViewer
 
 				foreach (var line in lines)
 				{
-					this.OnLineAddition?.Invoke(this, new LogFileMonitorLineEventArgs(line));
+					this.LineAdded?.Invoke(this, new LogFileMonitorLineEventArgs(line));
 				}
 			}
 
