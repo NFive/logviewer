@@ -17,6 +17,16 @@ namespace NFive.LogViewer
 	{
 		private static readonly Regex Split = new Regex(@"(?<! [^[]+\[[^]]+) ", RegexOptions.Compiled);
 		private static readonly Regex ClientLogPrefix = new Regex(@"^\[[ 0-9]{10}\] $", RegexOptions.Compiled);
+
+		private static readonly string[] LogLevels =
+		{
+			"Trace",
+			"Debug",
+			"Info",
+			"Warn",
+			"Error"
+		};
+
 		private readonly Dictionary<string, RichPanel> panels = new Dictionary<string, RichPanel>();
 		private LogFileMonitor monitor;
 
@@ -24,47 +34,43 @@ namespace NFive.LogViewer
 		{
 			InitializeComponent();
 
+			//SuspendLayout();
+
 			this.dockPanel.Theme = new VS2015LightTheme();
 
-			var file = args.FirstOrDefault(File.Exists);
+			// Load settings
+			this.wordWrapToolStripMenuItem.Checked = Settings.Instance.WordWrap;
 
-			if (file != null)
+			foreach (var level in LogLevels)
+			{
+				CreatePanel(level, DockState.DockBottomAutoHide, (name, hidden) =>
+				{
+					((ToolStripMenuItem)this.windowsToolStripMenuItem.DropDownItems[$"level{level}ToolStripMenuItem"]).CheckState = hidden ? CheckState.Unchecked : CheckState.Checked;
+				});
+			}
+
+			// Load file
+			var file = args.FirstOrDefault();
+
+			if (file != null && File.Exists(file))
 			{
 				OpenFile(file);
+				return;
 			}
-			else
+
+			file = Settings.Instance.FileHistory.FirstOrDefault();
+
+			if (Settings.Instance.RestoreLastFile && file != null && File.Exists(file))
 			{
-				file = Settings.Instance.FileHistory.FirstOrDefault(File.Exists);
-
-				if (Settings.Instance.RestoreLastFile && file != null)
-				{
-					OpenFile(file);
-				}
-				else
-				{
-					this.statusStrip.SuspendLayout();
-
-					this.openRecentToolStripMenuItem.DropDownItems.Clear();
-
-					foreach (var fileHistory in Settings.Instance.FileHistory)
-					{
-						var item = new ToolStripMenuItem
-						{
-							Text = fileHistory
-						};
-
-						item.Click += (s, a) => OpenFile(((ToolStripMenuItem)s).Text);
-
-						this.openRecentToolStripMenuItem.DropDownItems.Add(item);
-					}
-
-					this.openRecentToolStripMenuItem.Enabled = this.openRecentToolStripMenuItem.DropDownItems.Count > 0;
-
-					this.statusStrip.ResumeLayout();
-
-					if (Settings.Instance.ShowWelcomeTab) ShowWelcomeTab();
-				}
+				OpenFile(file);
+				return;
 			}
+
+			SetupRecentFilesMenu();
+
+			if (Settings.Instance.ShowWelcomeTab) ShowWelcomeTab();
+
+			//ResumeLayout(true);
 		}
 
 		private void Main_Load(object sender, EventArgs e)
@@ -75,23 +81,12 @@ namespace NFive.LogViewer
 
 			var preMaximizeBounds = this.Bounds;
 
-			this.ResizeBegin += (s, a) =>
-			{
-				preMaximizeBounds = this.Bounds;
-			};
+			this.ResizeBegin += (s, a) => preMaximizeBounds = this.Bounds;
 
 			this.ResizeEnd += (s, a) =>
 			{
 				if (this.WindowState == FormWindowState.Maximized) this.Bounds = preMaximizeBounds;
 			};
-
-			// Load settings
-			this.wordWrapToolStripMenuItem.Checked = Settings.Instance.WordWrap;
-
-			foreach (var panel in this.panels.Values)
-			{
-				panel.WordWrap = Settings.Instance.WordWrap;
-			}
 		}
 
 		private void Main_DragEnter(object sender, DragEventArgs e)
@@ -108,6 +103,8 @@ namespace NFive.LogViewer
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			this.monitor?.Stop();
+
 			Settings.Instance.Window.Maximized = this.WindowState == FormWindowState.Maximized;
 
 			if (Settings.Instance.Window.Maximized)
@@ -128,122 +125,126 @@ namespace NFive.LogViewer
 			Settings.Save();
 		}
 
-		private void Main_FormClosed(object sender, FormClosedEventArgs e)
+		private void SetupRecentFilesMenu()
 		{
-			this.monitor?.Stop();
+			this.menuStrip.SuspendLayout();
+
+			this.openRecentToolStripMenuItem.DropDownItems.Clear();
+
+			foreach (var fileHistory in Settings.Instance.FileHistory)
+			{
+				var item = new ToolStripMenuItem
+				{
+					Text = fileHistory
+				};
+
+				item.Click += (s, a) => OpenFile(((ToolStripMenuItem)s).Text);
+
+				this.openRecentToolStripMenuItem.DropDownItems.Add(item);
+			}
+
+			if (this.openRecentToolStripMenuItem.DropDownItems.Count > 0)
+			{
+				this.openRecentToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
+
+				var item = new ToolStripMenuItem
+				{
+					Text = "&Clear recent files"
+				};
+
+				item.Click += (s, a) =>
+				{
+					Settings.Instance.FileHistory.Clear();
+
+					SetupRecentFilesMenu();
+				};
+
+				this.openRecentToolStripMenuItem.DropDownItems.Add(item);
+			}
+
+			this.openRecentToolStripMenuItem.Enabled = this.openRecentToolStripMenuItem.DropDownItems.Count > 0;
+
+			this.menuStrip.ResumeLayout(true);
 		}
 
 		private void ShowWelcomeTab()
 		{
+			SuspendLayout();
+
 			CreatePanel("Welcome", DockState.Document, null);
+
+			var panel = this.panels["Welcome"];
+
+			var log = new Log
+			{
+				DateTime = DateTime.UtcNow,
+				Level = "Trace"
+			};
 
 			this.panels["Welcome"].Log(new Log
 			{
-				DateTime = DateTime.UtcNow,
-				Level = "Trace",
+				DateTime = log.DateTime,
+				Level = log.Level,
 				Prefix = "Log Viewer",
 				Message = "Below is examples of log levels and JSON highlighting"
 			});
+
+			this.panels["Welcome"].Log(log);
+
 			this.panels["Welcome"].Log(new Log
 			{
-				DateTime = DateTime.UtcNow,
-				Level = "Trace"
-			});
-			this.panels["Welcome"].Log(new Log
-			{
-				DateTime = DateTime.UtcNow,
-				Level = "Trace",
+				DateTime = log.DateTime,
+				Level = log.Level,
 				Message = $"{{{Environment.NewLine}\t\"name\": \"{this.Text}\",{Environment.NewLine}\t\"version\": {Assembly.GetExecutingAssembly().GetCustomAttributes<AssemblyFileVersionAttribute>().First().Version},{Environment.NewLine}\t\"website\": \"https://github.com/NFive/logviewer\"{Environment.NewLine}}}"
 			});
-			this.panels["Welcome"].Log(new Log
-			{
-				DateTime = DateTime.UtcNow,
-				Level = "Trace"
-			});
-			this.panels["Welcome"].Log(new Log
-			{
-				DateTime = DateTime.UtcNow,
-				Level = "Trace",
-				Message = "Trace message"
-			});
-			this.panels["Welcome"].Log(new Log
-			{
-				DateTime = DateTime.UtcNow,
-				Level = "Debug",
-				Message = "Debug message"
-			});
-			this.panels["Welcome"].Log(new Log
-			{
-				DateTime = DateTime.UtcNow,
-				Level = "Info",
-				Message = "Info message"
-			});
-			this.panels["Welcome"].Log(new Log
-			{
-				DateTime = DateTime.UtcNow,
-				Level = "Warn",
-				Message = "Warn message"
-			});
-			this.panels["Welcome"].Log(new Log
-			{
-				DateTime = DateTime.UtcNow,
-				Level = "Error",
-				Message = "Error message"
-			});
-		}
 
-		private void CloseFile()
-		{
-			// Stop monitor
-			this.monitor?.Stop();
+			this.panels["Welcome"].Log(log);
 
-			// Remove panels
-			foreach (var panel in this.panels.Values)
+			foreach (var level in new [] { "Trace", "Debug", "Info", "Warn", "Error" })
 			{
-				panel.Close();
-				panel.Dispose();
+				log.Level = level;
+				log.Message = $"{level} message";
+
+				panel.Log(log);
 			}
 
-			this.panels.Clear();
-
-			// UI
-			this.statusToolStripStatusLabel.Text = "Ready";
-			this.saveToolStripMenuItem.Enabled = false;
-			this.copyToolStripMenuItem.Enabled = false;
-			this.selectAllToolStripMenuItem.Enabled = false;
-			this.masterToolStripMenuItem.Enabled = false;
-			this.levelTraceToolStripMenuItem.Enabled = false;
-			this.levelDebugToolStripMenuItem.Enabled = false;
-			this.levelInfoToolStripMenuItem.Enabled = false;
-			this.levelWarnToolStripMenuItem.Enabled = false;
-			this.levelErrorToolStripMenuItem.Enabled = false;
+			ResumeLayout(true);
 		}
 
 		private void OpenFile(string file)
 		{
 			if (file == null) return;
+			if (!File.Exists(file)) return;
 
-			CloseFile();
+			// Stop monitor
+			this.monitor?.Stop();
+
+			SuspendLayout();
+
+			// Remove panels
+			foreach (var panel in this.panels.Where(p => !LogLevels.Contains(p.Key)).ToArray())
+			{
+				this.panels.Remove(panel.Key);
+
+				panel.Value.Close();
+				panel.Value.Dispose();
+			}
 
 			// UI
-			this.statusToolStripStatusLabel.Text = $"Monitoring {file}";
 			this.saveToolStripMenuItem.Enabled = true;
 			this.copyToolStripMenuItem.Enabled = true;
 			this.selectAllToolStripMenuItem.Enabled = true;
 			this.masterToolStripMenuItem.Enabled = true;
-			this.levelTraceToolStripMenuItem.Enabled = true;
-			this.levelDebugToolStripMenuItem.Enabled = true;
-			this.levelInfoToolStripMenuItem.Enabled = true;
-			this.levelWarnToolStripMenuItem.Enabled = true;
-			this.levelErrorToolStripMenuItem.Enabled = true;
+
+			this.statusToolStripStatusLabel.Text = $"Monitoring {file}";
+			this.timestampToolStripStatusLabel.Text = string.Empty;
+			this.levelToolStripStatusLabel.Text = string.Empty;
+			this.lineToolStripStatusLabel.Text = string.Empty;
+			this.columnToolStripStatusLabel.Text = string.Empty;
+			this.selectionToolStripStatusLabel.Text = string.Empty;
 
 			// Create panels
 			CreatePanel("Master", DockState.Document, (name, hidden) => this.masterToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
-			CreatePanel("Trace", DockState.DockBottomAutoHide, (name, hidden) => this.levelTraceToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
-			CreatePanel("Debug", DockState.DockBottomAutoHide, (name, hidden) => this.levelDebugToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
-			CreatePanel("Info", DockState.DockBottomAutoHide, (name, hidden) => this.levelInfoToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
-			CreatePanel("Warn", DockState.DockBottomAutoHide, (name, hidden) => this.levelWarnToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
-			CreatePanel("Error", DockState.DockBottomAutoHide, (name, hidden) => this.levelErrorToolStripMenuItem.CheckState = hidden ? CheckState.Unchecked : CheckState.Checked);
 
 			var stockPanels = new Dictionary<string, RichPanel>(this.panels);
 
@@ -258,6 +259,8 @@ namespace NFive.LogViewer
 			}
 
 			// Menus
+			this.menuStrip.SuspendLayout();
+
 			if (this.panels.Except(stockPanels).Any()) this.windowsToolStripMenuItem.DropDownItems.Insert(2, new ToolStripSeparator());
 
 			var pos = 2;
@@ -317,30 +320,14 @@ namespace NFive.LogViewer
 				this.windowsToolStripMenuItem.DropDownItems.Insert(pos, menu);
 			}
 
+			this.menuStrip.ResumeLayout();
+
 			// File history
 			var history = Settings.Instance.FileHistory;
 			history.Insert(0, file);
 			Settings.Instance.FileHistory = history.Distinct().Take(Settings.Instance.FileHistoryCount).ToList();
 
-			this.statusStrip.SuspendLayout();
-
-			this.openRecentToolStripMenuItem.DropDownItems.Clear();
-
-			foreach (var fileHistory in Settings.Instance.FileHistory)
-			{
-				var item = new ToolStripMenuItem
-				{
-					Text = fileHistory
-				};
-
-				item.Click += (s, a) => OpenFile(((ToolStripMenuItem)s).Text);
-
-				this.openRecentToolStripMenuItem.DropDownItems.Add(item);
-			}
-
-			this.openRecentToolStripMenuItem.Enabled = this.openRecentToolStripMenuItem.DropDownItems.Count > 0;
-
-			this.statusStrip.ResumeLayout();
+			SetupRecentFilesMenu();
 
 			// Monitor file
 			this.monitor = new LogFileMonitor(file, this, Environment.NewLine);
@@ -355,13 +342,18 @@ namespace NFive.LogViewer
 
 			// Focus master panel
 			this.panels["Master"].Focus();
+
+			ResumeLayout(true);
 		}
 
 		private void CreatePanel(string name, DockState state, Action<string, bool> visibilityCallback)
 		{
 			if (this.panels.ContainsKey(name)) return;
 
-			var panel = new RichPanel(name, Settings.Instance.Theme);
+			var panel = new RichPanel(name, Settings.Instance.Theme)
+			{
+				WordWrap = Settings.Instance.WordWrap
+			};
 
 			panel.VisibleChanged += (s, e) =>
 			{
@@ -478,7 +470,7 @@ namespace NFive.LogViewer
 				CheckFileExists = true,
 				CheckPathExists = true,
 				DefaultExt = "log",
-				Filter = "Supported Logs|nfive.log;CitizenFX.log;CitizenFX.log.*|NFive Log|nfive.log|FiveM Client Log|CitizenFX.log;CitizenFX.log.*|Log (*.log)|*.log|Text (*.txt)|*.txt|All files (*.*)|*.*",
+				Filter = "Supported Logs|nfive.log;nfive.log.*;CitizenFX.log;CitizenFX.log.*|NFive Log|nfive.log;nfive.log.*|FiveM Client Log|CitizenFX.log;CitizenFX.log.*|Log (*.log)|*.log;*.log.*|Text (*.txt)|*.txt|All files (*.*)|*.*",
 				Multiselect = false,
 				ReadOnlyChecked = true,
 				ShowHelp = false,
