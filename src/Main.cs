@@ -34,8 +34,6 @@ namespace NFive.LogViewer
 		{
 			InitializeComponent();
 
-			//SuspendLayout();
-
 			this.dockPanel.Theme = new VS2015LightTheme();
 
 			// Load settings
@@ -69,8 +67,6 @@ namespace NFive.LogViewer
 			SetupRecentFilesMenu();
 
 			if (Settings.Instance.ShowWelcomeTab) ShowWelcomeTab();
-
-			//ResumeLayout(true);
 		}
 
 		private void Main_Load(object sender, EventArgs e)
@@ -200,7 +196,7 @@ namespace NFive.LogViewer
 
 			this.panels["Welcome"].Log(log);
 
-			foreach (var level in new [] { "Trace", "Debug", "Info", "Warn", "Error" })
+			foreach (var level in new[] { "Trace", "Debug", "Info", "Warn", "Error" })
 			{
 				log.Level = level;
 				log.Message = $"{level} message";
@@ -375,8 +371,12 @@ namespace NFive.LogViewer
 				this.selectionToolStripStatusLabel.Text = $"Sel {Math.Abs(e.Position - e.Anchor)}";
 			};
 
+			var lastForm = this.dockPanel?.ActiveDocument?.DockHandler?.Form;
+
 			panel.Show(this.dockPanel);
 			panel.DockState = state;
+
+			lastForm?.Activate();
 
 			this.panels[name] = panel;
 		}
