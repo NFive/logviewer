@@ -23,9 +23,9 @@ namespace NFive.LogViewer.Configuration
 
 		public string ServerHost { get; set; } = "127.0.0.1";
 
-		public int ServerPort { get; set; } = 30120;
+		public ushort ServerPort { get; set; } = 30120;
 
-		public int ServerDebugPort { get; set; } = 13172;
+		public ushort ServerDebugPort { get; set; } = 13172;
 
 		public class ThemeConfiguration
 		{
