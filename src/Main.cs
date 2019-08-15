@@ -652,5 +652,15 @@ namespace NFive.LogViewer
 				form.ShowDialog();
 			}
 		}
+
+		private void ConnectToServerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start("fivem://connect/" + Settings.Instance.ServerHost + ":" + Settings.Instance.ServerPort);
+		}
+
+		private void ConnectToNuiDebuggerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start("http://" + Settings.Instance.ServerHost + ":" + Settings.Instance.ServerDebugPort);
+		}
 	}
 }
