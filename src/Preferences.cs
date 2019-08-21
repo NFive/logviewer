@@ -104,8 +104,6 @@ namespace NFive.LogViewer
 
 			this.textBoxServerHost.Text = Settings.Instance.ServerHost;
 			this.numericUpDownServerPort.Value = Settings.Instance.ServerPort;
-			this.numericUpDownServerDebugPort.Value = Settings.Instance.ServerDebugPort;
-
 		}
 
 		private void ApplyPreferences()
@@ -136,12 +134,6 @@ namespace NFive.LogViewer
 
 			Settings.Instance.ServerHost = this.textBoxServerHost.Text;
 			Settings.Instance.ServerPort = Convert.ToUInt16(this.numericUpDownServerPort.Value);
-			Settings.Instance.ServerDebugPort = Convert.ToUInt16(this.numericUpDownServerDebugPort.Value);
-		}
-
-		private void TextBoxServerHost_TextChanged(object sender, EventArgs e)
-		{
-
 		}
 	}
 }

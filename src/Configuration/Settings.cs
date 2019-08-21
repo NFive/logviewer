@@ -25,8 +25,6 @@ namespace NFive.LogViewer.Configuration
 
 		public ushort ServerPort { get; set; } = 30120;
 
-		public ushort ServerDebugPort { get; set; } = 13172;
-
 		public class ThemeConfiguration
 		{
 			public Font Font { get; set; } = new Font(new FontFamily("Consolas"), 10, FontStyle.Regular, GraphicsUnit.Point);

@@ -56,11 +56,11 @@ namespace NFive.LogViewer
             this.levelInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.levelWarnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.levelErrorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectToFiveMServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectToNuiDebuggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fiveMToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.connectToServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.connectToNuiDebuggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -142,7 +142,7 @@ namespace NFive.LogViewer
             this.editToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.windowsToolStripMenuItem,
-            this.fiveMToolsToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -389,6 +389,29 @@ namespace NFive.LogViewer
             this.levelErrorToolStripMenuItem.Text = "Level &Error";
             this.levelErrorToolStripMenuItem.Click += new System.EventHandler(this.LevelErrorToolStripMenuItem_Click);
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectToFiveMServerToolStripMenuItem,
+            this.connectToNuiDebuggerToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // connectToFiveMServerToolStripMenuItem
+            // 
+            this.connectToFiveMServerToolStripMenuItem.Name = "connectToFiveMServerToolStripMenuItem";
+            this.connectToFiveMServerToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.connectToFiveMServerToolStripMenuItem.Text = "Connect to &FiveM server";
+            this.connectToFiveMServerToolStripMenuItem.Click += new System.EventHandler(this.ConnectToFiveMServerToolStripMenuItem_Click);
+            // 
+            // connectToNuiDebuggerToolStripMenuItem
+            // 
+            this.connectToNuiDebuggerToolStripMenuItem.Name = "connectToNuiDebuggerToolStripMenuItem";
+            this.connectToNuiDebuggerToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.connectToNuiDebuggerToolStripMenuItem.Text = "Connect to &NUI debugger";
+            this.connectToNuiDebuggerToolStripMenuItem.Click += new System.EventHandler(this.ConnectToNuiDebuggerToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -403,29 +426,6 @@ namespace NFive.LogViewer
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
-            // 
-            // fiveMToolsToolStripMenuItem
-            // 
-            this.fiveMToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.connectToServerToolStripMenuItem,
-            this.connectToNuiDebuggerToolStripMenuItem});
-            this.fiveMToolsToolStripMenuItem.Name = "fiveMToolsToolStripMenuItem";
-            this.fiveMToolsToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
-            this.fiveMToolsToolStripMenuItem.Text = "FiveM-Tools";
-            // 
-            // connectToServerToolStripMenuItem
-            // 
-            this.connectToServerToolStripMenuItem.Name = "connectToServerToolStripMenuItem";
-            this.connectToServerToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.connectToServerToolStripMenuItem.Text = "Connect to Server";
-            this.connectToServerToolStripMenuItem.Click += new System.EventHandler(this.ConnectToServerToolStripMenuItem_Click);
-            // 
-            // connectToNuiDebuggerToolStripMenuItem
-            // 
-            this.connectToNuiDebuggerToolStripMenuItem.Name = "connectToNuiDebuggerToolStripMenuItem";
-            this.connectToNuiDebuggerToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.connectToNuiDebuggerToolStripMenuItem.Text = "Connect to Nui Debugger";
-            this.connectToNuiDebuggerToolStripMenuItem.Click += new System.EventHandler(this.ConnectToNuiDebuggerToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -501,8 +501,8 @@ namespace NFive.LogViewer
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem fiveMToolsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem connectToServerToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem connectToFiveMServerToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem connectToNuiDebuggerToolStripMenuItem;
 	}
 }

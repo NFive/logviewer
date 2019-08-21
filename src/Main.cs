@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -645,22 +646,22 @@ namespace NFive.LogViewer
 			TogglePanelMenu("Error");
 		}
 
+		private void ConnectToFiveMServerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start($"fivem://connect/{Settings.Instance.ServerHost}:{Settings.Instance.ServerPort}");
+		}
+
+		private void ConnectToNuiDebuggerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start($"http://{Settings.Instance.ServerHost}:13172");
+		}
+
 		private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			using (var form = new About())
 			{
 				form.ShowDialog();
 			}
-		}
-
-		private void ConnectToServerToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			System.Diagnostics.Process.Start("fivem://connect/" + Settings.Instance.ServerHost + ":" + Settings.Instance.ServerPort);
-		}
-
-		private void ConnectToNuiDebuggerToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			System.Diagnostics.Process.Start("http://" + Settings.Instance.ServerHost + ":" + Settings.Instance.ServerDebugPort);
 		}
 	}
 }
