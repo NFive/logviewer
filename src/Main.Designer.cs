@@ -56,6 +56,9 @@ namespace NFive.LogViewer
             this.levelInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.levelWarnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.levelErrorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectToFiveMServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectToNuiDebuggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
@@ -139,6 +142,7 @@ namespace NFive.LogViewer
             this.editToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.windowsToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -336,20 +340,20 @@ namespace NFive.LogViewer
             this.masterToolStripMenuItem.Enabled = false;
             this.masterToolStripMenuItem.Name = "masterToolStripMenuItem";
             this.masterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.masterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.masterToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.masterToolStripMenuItem.Text = "&Master";
             this.masterToolStripMenuItem.Click += new System.EventHandler(this.MasterToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(152, 6);
             // 
             // levelTraceToolStripMenuItem
             // 
             this.levelTraceToolStripMenuItem.CheckOnClick = true;
             this.levelTraceToolStripMenuItem.Name = "levelTraceToolStripMenuItem";
-            this.levelTraceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelTraceToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.levelTraceToolStripMenuItem.Text = "Level &Trace";
             this.levelTraceToolStripMenuItem.Click += new System.EventHandler(this.LevelTraceToolStripMenuItem_Click);
             // 
@@ -357,7 +361,7 @@ namespace NFive.LogViewer
             // 
             this.levelDebugToolStripMenuItem.CheckOnClick = true;
             this.levelDebugToolStripMenuItem.Name = "levelDebugToolStripMenuItem";
-            this.levelDebugToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelDebugToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.levelDebugToolStripMenuItem.Text = "Level &Debug";
             this.levelDebugToolStripMenuItem.Click += new System.EventHandler(this.LevelDebugToolStripMenuItem_Click);
             // 
@@ -365,7 +369,7 @@ namespace NFive.LogViewer
             // 
             this.levelInfoToolStripMenuItem.CheckOnClick = true;
             this.levelInfoToolStripMenuItem.Name = "levelInfoToolStripMenuItem";
-            this.levelInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelInfoToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.levelInfoToolStripMenuItem.Text = "Level &Info";
             this.levelInfoToolStripMenuItem.Click += new System.EventHandler(this.LevelInfoToolStripMenuItem_Click);
             // 
@@ -373,7 +377,7 @@ namespace NFive.LogViewer
             // 
             this.levelWarnToolStripMenuItem.CheckOnClick = true;
             this.levelWarnToolStripMenuItem.Name = "levelWarnToolStripMenuItem";
-            this.levelWarnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelWarnToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.levelWarnToolStripMenuItem.Text = "Level &Warn";
             this.levelWarnToolStripMenuItem.Click += new System.EventHandler(this.LevelWarnToolStripMenuItem_Click);
             // 
@@ -381,9 +385,32 @@ namespace NFive.LogViewer
             // 
             this.levelErrorToolStripMenuItem.CheckOnClick = true;
             this.levelErrorToolStripMenuItem.Name = "levelErrorToolStripMenuItem";
-            this.levelErrorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelErrorToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.levelErrorToolStripMenuItem.Text = "Level &Error";
             this.levelErrorToolStripMenuItem.Click += new System.EventHandler(this.LevelErrorToolStripMenuItem_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectToFiveMServerToolStripMenuItem,
+            this.connectToNuiDebuggerToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // connectToFiveMServerToolStripMenuItem
+            // 
+            this.connectToFiveMServerToolStripMenuItem.Name = "connectToFiveMServerToolStripMenuItem";
+            this.connectToFiveMServerToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.connectToFiveMServerToolStripMenuItem.Text = "Connect to &FiveM server";
+            this.connectToFiveMServerToolStripMenuItem.Click += new System.EventHandler(this.ConnectToFiveMServerToolStripMenuItem_Click);
+            // 
+            // connectToNuiDebuggerToolStripMenuItem
+            // 
+            this.connectToNuiDebuggerToolStripMenuItem.Name = "connectToNuiDebuggerToolStripMenuItem";
+            this.connectToNuiDebuggerToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.connectToNuiDebuggerToolStripMenuItem.Text = "Connect to &NUI debugger";
+            this.connectToNuiDebuggerToolStripMenuItem.Click += new System.EventHandler(this.ConnectToNuiDebuggerToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -396,7 +423,7 @@ namespace NFive.LogViewer
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
@@ -474,5 +501,8 @@ namespace NFive.LogViewer
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem connectToFiveMServerToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem connectToNuiDebuggerToolStripMenuItem;
 	}
 }

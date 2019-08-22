@@ -21,6 +21,10 @@ namespace NFive.LogViewer.Configuration
 
 		public WindowState Window { get; set; } = new WindowState();
 
+		public string ServerHost { get; set; } = "127.0.0.1";
+
+		public ushort ServerPort { get; set; } = 30120;
+
 		public class ThemeConfiguration
 		{
 			public Font Font { get; set; } = new Font(new FontFamily("Consolas"), 10, FontStyle.Regular, GraphicsUnit.Point);

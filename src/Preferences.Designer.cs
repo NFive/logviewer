@@ -74,18 +74,25 @@ namespace NFive.LogViewer
             this.panelSyntaxProperty = new System.Windows.Forms.Panel();
             this.buttonApply = new System.Windows.Forms.Button();
             this.buttonReset = new System.Windows.Forms.Button();
+            this.groupBoxServer = new System.Windows.Forms.GroupBox();
+            this.numericUpDownServerPort = new System.Windows.Forms.NumericUpDown();
+            this.textBoxServerHost = new System.Windows.Forms.TextBox();
+            this.labelServerPort = new System.Windows.Forms.Label();
+            this.labelServerHost = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFileHistory)).BeginInit();
             this.groupBoxGeneral.SuspendLayout();
             this.groupBoxEditor.SuspendLayout();
             this.groupBoxLevels.SuspendLayout();
             this.groupBoxSyntax.SuspendLayout();
+            this.groupBoxServer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownServerPort)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(293, 484);
+            this.buttonCancel.Location = new System.Drawing.Point(293, 538);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 3;
@@ -96,7 +103,7 @@ namespace NFive.LogViewer
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOk.Location = new System.Drawing.Point(131, 484);
+            this.buttonOk.Location = new System.Drawing.Point(131, 538);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 2;
@@ -157,8 +164,7 @@ namespace NFive.LogViewer
             // 
             // groupBoxEditor
             // 
-            this.groupBoxEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBoxEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxEditor.Controls.Add(this.panelTextSelectionColor);
             this.groupBoxEditor.Controls.Add(this.labelTextSelectionColor);
@@ -170,9 +176,9 @@ namespace NFive.LogViewer
             this.groupBoxEditor.Controls.Add(this.labelMarginBackgroundColor);
             this.groupBoxEditor.Controls.Add(this.labelEditorTextColor);
             this.groupBoxEditor.Controls.Add(this.panelEditorTextColor);
-            this.groupBoxEditor.Location = new System.Drawing.Point(12, 112);
+            this.groupBoxEditor.Location = new System.Drawing.Point(12, 167);
             this.groupBoxEditor.Name = "groupBoxEditor";
-            this.groupBoxEditor.Size = new System.Drawing.Size(356, 115);
+            this.groupBoxEditor.Size = new System.Drawing.Size(356, 114);
             this.groupBoxEditor.TabIndex = 4;
             this.groupBoxEditor.TabStop = false;
             this.groupBoxEditor.Text = "Editor";
@@ -279,7 +285,8 @@ namespace NFive.LogViewer
             // 
             // groupBoxLevels
             // 
-            this.groupBoxLevels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxLevels.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxLevels.Controls.Add(this.panelLevelTrace);
             this.groupBoxLevels.Controls.Add(this.labelLevelTrace);
             this.groupBoxLevels.Controls.Add(this.labelLevelDebug);
@@ -290,7 +297,7 @@ namespace NFive.LogViewer
             this.groupBoxLevels.Controls.Add(this.labelLevelWarn);
             this.groupBoxLevels.Controls.Add(this.labelLevelError);
             this.groupBoxLevels.Controls.Add(this.panelLevelWarn);
-            this.groupBoxLevels.Location = new System.Drawing.Point(198, 233);
+            this.groupBoxLevels.Location = new System.Drawing.Point(198, 287);
             this.groupBoxLevels.Name = "groupBoxLevels";
             this.groupBoxLevels.Size = new System.Drawing.Size(170, 241);
             this.groupBoxLevels.TabIndex = 6;
@@ -399,7 +406,8 @@ namespace NFive.LogViewer
             // 
             // groupBoxSyntax
             // 
-            this.groupBoxSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBoxSyntax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxSyntax.Controls.Add(this.panelSyntaxPrefix);
             this.groupBoxSyntax.Controls.Add(this.labelSyntaxPrefix);
             this.groupBoxSyntax.Controls.Add(this.panelSyntaxKeyword);
@@ -414,7 +422,7 @@ namespace NFive.LogViewer
             this.groupBoxSyntax.Controls.Add(this.labelSyntaxProperty);
             this.groupBoxSyntax.Controls.Add(this.labelSyntaxOperator);
             this.groupBoxSyntax.Controls.Add(this.panelSyntaxProperty);
-            this.groupBoxSyntax.Location = new System.Drawing.Point(12, 233);
+            this.groupBoxSyntax.Location = new System.Drawing.Point(12, 287);
             this.groupBoxSyntax.Name = "groupBoxSyntax";
             this.groupBoxSyntax.Size = new System.Drawing.Size(170, 241);
             this.groupBoxSyntax.TabIndex = 5;
@@ -564,7 +572,7 @@ namespace NFive.LogViewer
             // buttonApply
             // 
             this.buttonApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonApply.Location = new System.Drawing.Point(212, 484);
+            this.buttonApply.Location = new System.Drawing.Point(212, 538);
             this.buttonApply.Name = "buttonApply";
             this.buttonApply.Size = new System.Drawing.Size(75, 23);
             this.buttonApply.TabIndex = 7;
@@ -575,7 +583,7 @@ namespace NFive.LogViewer
             // buttonReset
             // 
             this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonReset.Location = new System.Drawing.Point(12, 484);
+            this.buttonReset.Location = new System.Drawing.Point(12, 538);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(75, 23);
             this.buttonReset.TabIndex = 8;
@@ -583,13 +591,75 @@ namespace NFive.LogViewer
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.ButtonReset_Click);
             // 
+            // groupBoxServer
+            // 
+            this.groupBoxServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxServer.Controls.Add(this.numericUpDownServerPort);
+            this.groupBoxServer.Controls.Add(this.textBoxServerHost);
+            this.groupBoxServer.Controls.Add(this.labelServerPort);
+            this.groupBoxServer.Controls.Add(this.labelServerHost);
+            this.groupBoxServer.Location = new System.Drawing.Point(13, 113);
+            this.groupBoxServer.Name = "groupBoxServer";
+            this.groupBoxServer.Size = new System.Drawing.Size(355, 48);
+            this.groupBoxServer.TabIndex = 9;
+            this.groupBoxServer.TabStop = false;
+            this.groupBoxServer.Text = "FiveM Server";
+            // 
+            // numericUpDownServerPort
+            // 
+            this.numericUpDownServerPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericUpDownServerPort.Location = new System.Drawing.Point(282, 20);
+            this.numericUpDownServerPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.numericUpDownServerPort.Name = "numericUpDownServerPort";
+            this.numericUpDownServerPort.Size = new System.Drawing.Size(66, 20);
+            this.numericUpDownServerPort.TabIndex = 4;
+            this.numericUpDownServerPort.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // textBoxServerHost
+            // 
+            this.textBoxServerHost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxServerHost.Location = new System.Drawing.Point(44, 19);
+            this.textBoxServerHost.Name = "textBoxServerHost";
+            this.textBoxServerHost.Size = new System.Drawing.Size(197, 20);
+            this.textBoxServerHost.TabIndex = 3;
+            // 
+            // labelServerPort
+            // 
+            this.labelServerPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelServerPort.AutoSize = true;
+            this.labelServerPort.Location = new System.Drawing.Point(247, 22);
+            this.labelServerPort.Name = "labelServerPort";
+            this.labelServerPort.Size = new System.Drawing.Size(29, 13);
+            this.labelServerPort.TabIndex = 1;
+            this.labelServerPort.Text = "Port:";
+            // 
+            // labelServerHost
+            // 
+            this.labelServerHost.AutoSize = true;
+            this.labelServerHost.Location = new System.Drawing.Point(6, 22);
+            this.labelServerHost.Name = "labelServerHost";
+            this.labelServerHost.Size = new System.Drawing.Size(32, 13);
+            this.labelServerHost.TabIndex = 0;
+            this.labelServerHost.Text = "Host:";
+            // 
             // Preferences
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(380, 519);
+            this.ClientSize = new System.Drawing.Size(380, 573);
+            this.Controls.Add(this.groupBoxServer);
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.groupBoxEditor);
@@ -615,6 +685,9 @@ namespace NFive.LogViewer
             this.groupBoxLevels.PerformLayout();
             this.groupBoxSyntax.ResumeLayout(false);
             this.groupBoxSyntax.PerformLayout();
+            this.groupBoxServer.ResumeLayout(false);
+            this.groupBoxServer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownServerPort)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -667,5 +740,10 @@ namespace NFive.LogViewer
 		private System.Windows.Forms.Button buttonReset;
 		private System.Windows.Forms.Panel panelTextSelectionColor;
 		private System.Windows.Forms.Label labelTextSelectionColor;
+		private System.Windows.Forms.GroupBox groupBoxServer;
+		private System.Windows.Forms.TextBox textBoxServerHost;
+		private System.Windows.Forms.NumericUpDown numericUpDownServerPort;
+		private System.Windows.Forms.Label labelServerPort;
+		private System.Windows.Forms.Label labelServerHost;
 	}
 }
