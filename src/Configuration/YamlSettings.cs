@@ -70,7 +70,6 @@ namespace NFive.LogViewer.Configuration
 			File.WriteAllText(Path, new SerializerBuilder()
 				.WithTypeConverter(new ColorConverter())
 				.WithTypeConverter(new FontConverter())
-				.EmitDefaults()
 				.Build()
 				.Serialize(Instance));
 		}
