@@ -653,7 +653,14 @@ namespace NFive.LogViewer
 
 		private void ConnectToNuiDebuggerToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Process.Start($"http://{Settings.Instance.ServerHost}:13172");
+			try
+			{
+				Process.Start("chrome", $"http://{Settings.Instance.ServerHost}:13172");
+			}
+			catch (Exception)
+			{
+				Process.Start($"http://{Settings.Instance.ServerHost}:13172");
+			}
 		}
 
 		private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
