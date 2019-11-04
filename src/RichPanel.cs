@@ -1,7 +1,10 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using JetBrains.Annotations;
 using NFive.LogViewer.Configuration;
 using ScintillaNET;
 using WeifenLuo.WinFormsUI.Docking;
@@ -139,6 +142,8 @@ namespace NFive.LogViewer
 		[DllImport("user32")]
 		private static extern int GetScrollInfo(IntPtr hwnd, int nBar, ref ScrollInfo scrollInfo);
 
+		[PublicAPI]
+		[SuppressMessage("ReSharper", "InconsistentNaming")]
 		private struct ScrollInfo
 		{
 			public int cbSize;
@@ -150,7 +155,7 @@ namespace NFive.LogViewer
 			public int nTrackPos;
 		}
 
-		private static bool ReachedBottom(Scintilla scintilla)
+		private static bool ReachedBottom(IWin32Window scintilla)
 		{
 			var scrollInfo = new ScrollInfo();
 			scrollInfo.cbSize = Marshal.SizeOf(scrollInfo);

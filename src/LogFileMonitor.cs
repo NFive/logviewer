@@ -36,7 +36,16 @@ namespace NFive.LogViewer
 		{
 			this.path = path;
 			this.delimiter = delimiter;
-			this.watcher = new FileSystemWatcher(Path.GetDirectoryName(this.path), Path.GetFileName(this.path))
+
+			if (string.IsNullOrWhiteSpace(this.path)) throw new ArgumentNullException(nameof(path));
+
+			var directory = Path.GetDirectoryName(this.path);
+			if (directory == null) throw new ArgumentException(nameof(path));
+
+			var file = Path.GetFileName(this.path);
+			if (Path.GetFileName(this.path) == null) throw new ArgumentException(nameof(path));
+
+			this.watcher = new FileSystemWatcher(directory, file)
 			{
 				SynchronizingObject = synchronizingObject
 			};

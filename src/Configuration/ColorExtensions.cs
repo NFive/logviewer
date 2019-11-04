@@ -9,7 +9,7 @@ namespace NFive.LogViewer.Configuration
 			var a = (byte)(value >> 24);
 			var r = (byte)(value >> 16);
 			var g = (byte)(value >> 8);
-			var b = (byte)(value >> 0);
+			var b = (byte)value;
 
 			return Color.FromArgb(a, r, g, b);
 		}
