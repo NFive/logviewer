@@ -340,20 +340,23 @@ namespace NFive.LogViewer
             this.masterToolStripMenuItem.Enabled = false;
             this.masterToolStripMenuItem.Name = "masterToolStripMenuItem";
             this.masterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.masterToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.masterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.masterToolStripMenuItem.Tag = "true";
             this.masterToolStripMenuItem.Text = "&Master";
             this.masterToolStripMenuItem.Click += new System.EventHandler(this.MasterToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(152, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator5.Tag = "true";
             // 
             // levelTraceToolStripMenuItem
             // 
             this.levelTraceToolStripMenuItem.CheckOnClick = true;
             this.levelTraceToolStripMenuItem.Name = "levelTraceToolStripMenuItem";
-            this.levelTraceToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.levelTraceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelTraceToolStripMenuItem.Tag = "true";
             this.levelTraceToolStripMenuItem.Text = "Level &Trace";
             this.levelTraceToolStripMenuItem.Click += new System.EventHandler(this.LevelTraceToolStripMenuItem_Click);
             // 
@@ -361,7 +364,8 @@ namespace NFive.LogViewer
             // 
             this.levelDebugToolStripMenuItem.CheckOnClick = true;
             this.levelDebugToolStripMenuItem.Name = "levelDebugToolStripMenuItem";
-            this.levelDebugToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.levelDebugToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelDebugToolStripMenuItem.Tag = "true";
             this.levelDebugToolStripMenuItem.Text = "Level &Debug";
             this.levelDebugToolStripMenuItem.Click += new System.EventHandler(this.LevelDebugToolStripMenuItem_Click);
             // 
@@ -369,7 +373,8 @@ namespace NFive.LogViewer
             // 
             this.levelInfoToolStripMenuItem.CheckOnClick = true;
             this.levelInfoToolStripMenuItem.Name = "levelInfoToolStripMenuItem";
-            this.levelInfoToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.levelInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelInfoToolStripMenuItem.Tag = "true";
             this.levelInfoToolStripMenuItem.Text = "Level &Info";
             this.levelInfoToolStripMenuItem.Click += new System.EventHandler(this.LevelInfoToolStripMenuItem_Click);
             // 
@@ -377,7 +382,8 @@ namespace NFive.LogViewer
             // 
             this.levelWarnToolStripMenuItem.CheckOnClick = true;
             this.levelWarnToolStripMenuItem.Name = "levelWarnToolStripMenuItem";
-            this.levelWarnToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.levelWarnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelWarnToolStripMenuItem.Tag = "true";
             this.levelWarnToolStripMenuItem.Text = "Level &Warn";
             this.levelWarnToolStripMenuItem.Click += new System.EventHandler(this.LevelWarnToolStripMenuItem_Click);
             // 
@@ -385,7 +391,8 @@ namespace NFive.LogViewer
             // 
             this.levelErrorToolStripMenuItem.CheckOnClick = true;
             this.levelErrorToolStripMenuItem.Name = "levelErrorToolStripMenuItem";
-            this.levelErrorToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.levelErrorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelErrorToolStripMenuItem.Tag = "true";
             this.levelErrorToolStripMenuItem.Text = "Level &Error";
             this.levelErrorToolStripMenuItem.Click += new System.EventHandler(this.LevelErrorToolStripMenuItem_Click);
             // 

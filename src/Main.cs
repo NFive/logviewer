@@ -258,6 +258,20 @@ namespace NFive.LogViewer
 			// Menus
 			this.menuStrip.SuspendLayout();
 
+            foreach (var item in this.windowsToolStripMenuItem.DropDownItems.OfType<ToolStripMenuItem>().ToArray())
+			{
+                if (item.Tag != null) continue;
+
+				this.windowsToolStripMenuItem.DropDownItems.Remove(item);
+			}
+
+            foreach (var item in this.windowsToolStripMenuItem.DropDownItems.OfType<ToolStripSeparator>().ToArray())
+            {
+	            if (item.Tag != null) continue;
+
+	            this.windowsToolStripMenuItem.DropDownItems.Remove(item);
+            }
+
 			if (this.panels.Except(stockPanels).Any()) this.windowsToolStripMenuItem.DropDownItems.Insert(2, new ToolStripSeparator());
 
 			var pos = 2;
