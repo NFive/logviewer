@@ -258,19 +258,19 @@ namespace NFive.LogViewer
 			// Menus
 			this.menuStrip.SuspendLayout();
 
-            foreach (var item in this.windowsToolStripMenuItem.DropDownItems.OfType<ToolStripMenuItem>().ToArray())
+			foreach (var item in this.windowsToolStripMenuItem.DropDownItems.OfType<ToolStripMenuItem>().ToArray())
 			{
-                if (item.Tag != null) continue;
+				if (item.Tag != null) continue;
 
 				this.windowsToolStripMenuItem.DropDownItems.Remove(item);
 			}
 
-            foreach (var item in this.windowsToolStripMenuItem.DropDownItems.OfType<ToolStripSeparator>().ToArray())
-            {
-	            if (item.Tag != null) continue;
+			foreach (var item in this.windowsToolStripMenuItem.DropDownItems.OfType<ToolStripSeparator>().ToArray())
+			{
+				if (item.Tag != null) continue;
 
-	            this.windowsToolStripMenuItem.DropDownItems.Remove(item);
-            }
+				this.windowsToolStripMenuItem.DropDownItems.Remove(item);
+			}
 
 			if (this.panels.Except(stockPanels).Any()) this.windowsToolStripMenuItem.DropDownItems.Insert(2, new ToolStripSeparator());
 
@@ -314,18 +314,30 @@ namespace NFive.LogViewer
 			{
 				var menu = new ToolStripMenuItem
 				{
-					Text = client.Key
+					Text = client.Key,
+					Name = client.Key
 				};
 
 				foreach (var subMenu in client.Value)
 				{
-					menu.DropDownItems.Add(new ToolStripMenuItem
+					var item = new ToolStripMenuItem
 					{
 						Text = subMenu,
 						CheckOnClick = true,
 						Checked = true,
 						Name = subMenu
-					});
+					};
+
+					menu.DropDownItems.Add(item);
+
+					item.Click += (s, a) =>
+					{
+						var name = ((ToolStripMenuItem)s)?.Name;
+						var full = $"{client.Key}|{name}";
+						if (name == "Master") full = client.Key;
+
+						TogglePanelMenu(full);
+					};
 				}
 
 				this.windowsToolStripMenuItem.DropDownItems.Insert(pos, menu);
@@ -440,8 +452,25 @@ namespace NFive.LogViewer
 
 			if (!string.IsNullOrWhiteSpace(log.Prefix)) CreatePanel(log.Prefix, DockState.Document, (name, hidden) =>
 			{
-				var item = (ToolStripMenuItem)this.windowsToolStripMenuItem.DropDownItems.Find(log.Prefix, true).FirstOrDefault();
+				var parts = log.Prefix.Split(new[] { '|' }, 2);
+
+				var item = (ToolStripMenuItem)this.windowsToolStripMenuItem.DropDownItems.Find(parts[0], false).FirstOrDefault();
 				if (item == null) return;
+
+				if (parts.Length > 1)
+				{
+					var subItem = (ToolStripMenuItem)item.DropDownItems.Find(parts[1] == "Master" ? parts[0] : parts[1], false).FirstOrDefault();
+					if (subItem == null) return;
+
+					item = subItem;
+				}
+				else if (item.DropDownItems.Count > 0)
+				{
+					var subItem = (ToolStripMenuItem)item.DropDownItems.Find("Master", false).FirstOrDefault();
+					if (subItem == null) return;
+
+					item = subItem;
+				}
 
 				item.Checked = !hidden;
 			});
