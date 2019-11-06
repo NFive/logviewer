@@ -89,6 +89,12 @@
     <Compile Include="Configuration\FontConverter.cs" />
     <Compile Include="Configuration\ColorConverter.cs" />
     <Compile Include="Configuration\ColorExtensions.cs" />
+    <Compile Include="GoTo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GoTo.Designer.cs">
+      <DependentUpon>GoTo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Log.cs" />
     <Compile Include="LogFileMonitor.cs" />
     <Compile Include="Main.cs">

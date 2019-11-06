@@ -24,6 +24,14 @@ namespace NFive.LogViewer
 
 		public string Content => this.scintilla.Text;
 
+		public int CurrentLine
+		{
+			get => this.scintilla.CurrentLine + 1;
+			set => this.scintilla.Lines[value - 1].Goto();
+		}
+
+		public int TotalLines => this.scintilla.Lines.Count;
+
 		public bool WordWrap
 		{
 			set => this.scintilla.WrapMode = value ? WrapMode.Word : WrapMode.None;

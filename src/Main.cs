@@ -230,6 +230,7 @@ namespace NFive.LogViewer
 			// UI
 			this.saveToolStripMenuItem.Enabled = true;
 			this.copyToolStripMenuItem.Enabled = true;
+			this.goToToolStripMenuItem.Enabled = true;
 			this.selectAllToolStripMenuItem.Enabled = true;
 			this.masterToolStripMenuItem.Enabled = true;
 
@@ -384,6 +385,7 @@ namespace NFive.LogViewer
 
 				this.saveToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible && p.Text != "Welcome");
 				this.copyToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible);
+				this.goToToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible);
 				this.selectAllToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible);
 			};
 
@@ -557,6 +559,14 @@ namespace NFive.LogViewer
 		private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			(this.ActiveControl as RichPanel)?.Copy();
+		}
+		
+		private void GoToToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (var form = new GoTo((RichPanel)this.ActiveControl))
+			{
+				form.ShowDialog();
+			}
 		}
 
 		private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
