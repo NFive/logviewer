@@ -50,7 +50,10 @@ build:
   verbosity: minimal
 
 artifacts:
-- path: src\bin\Release\NFive Log Viewer.exe
+- path: src\bin\Release\NFiveLogViewer.exe
+
+before_deploy:
+  - ps: Get-ChildItem src\bin\Release\*.exe | Rename-Item -NewName { $_.name -replace " ", "" }
 
 deploy:
 - provider: GitHub
