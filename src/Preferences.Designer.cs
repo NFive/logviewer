@@ -95,7 +95,7 @@ namespace NFive.LogViewer
             this.buttonCancel.Location = new System.Drawing.Point(293, 538);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 3;
+            this.buttonCancel.TabIndex = 8;
             this.buttonCancel.Text = "&Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
@@ -106,7 +106,7 @@ namespace NFive.LogViewer
             this.buttonOk.Location = new System.Drawing.Point(131, 538);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
-            this.buttonOk.TabIndex = 2;
+            this.buttonOk.TabIndex = 6;
             this.buttonOk.Text = "&OK";
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.ButtonOk_Click);
@@ -179,7 +179,7 @@ namespace NFive.LogViewer
             this.groupBoxEditor.Location = new System.Drawing.Point(12, 167);
             this.groupBoxEditor.Name = "groupBoxEditor";
             this.groupBoxEditor.Size = new System.Drawing.Size(356, 114);
-            this.groupBoxEditor.TabIndex = 4;
+            this.groupBoxEditor.TabIndex = 2;
             this.groupBoxEditor.TabStop = false;
             this.groupBoxEditor.Text = "Editor";
             // 
@@ -229,7 +229,7 @@ namespace NFive.LogViewer
             this.labelMarginTextColor.Location = new System.Drawing.Point(192, 56);
             this.labelMarginTextColor.Name = "labelMarginTextColor";
             this.labelMarginTextColor.Size = new System.Drawing.Size(88, 13);
-            this.labelMarginTextColor.TabIndex = 6;
+            this.labelMarginTextColor.TabIndex = 8;
             this.labelMarginTextColor.Text = "Margin text color:";
             // 
             // panelMarginBackgroundColor
@@ -250,7 +250,7 @@ namespace NFive.LogViewer
             this.panelMarginTextColor.Location = new System.Drawing.Point(323, 50);
             this.panelMarginTextColor.Name = "panelMarginTextColor";
             this.panelMarginTextColor.Size = new System.Drawing.Size(25, 25);
-            this.panelMarginTextColor.TabIndex = 7;
+            this.panelMarginTextColor.TabIndex = 9;
             this.panelMarginTextColor.TabStop = true;
             this.panelMarginTextColor.Click += new System.EventHandler(this.PanelColor_Click);
             // 
@@ -269,7 +269,7 @@ namespace NFive.LogViewer
             this.labelEditorTextColor.Location = new System.Drawing.Point(192, 25);
             this.labelEditorTextColor.Name = "labelEditorTextColor";
             this.labelEditorTextColor.Size = new System.Drawing.Size(83, 13);
-            this.labelEditorTextColor.TabIndex = 4;
+            this.labelEditorTextColor.TabIndex = 6;
             this.labelEditorTextColor.Text = "Editor text color:";
             // 
             // panelEditorTextColor
@@ -279,7 +279,7 @@ namespace NFive.LogViewer
             this.panelEditorTextColor.Location = new System.Drawing.Point(323, 19);
             this.panelEditorTextColor.Name = "panelEditorTextColor";
             this.panelEditorTextColor.Size = new System.Drawing.Size(25, 25);
-            this.panelEditorTextColor.TabIndex = 5;
+            this.panelEditorTextColor.TabIndex = 7;
             this.panelEditorTextColor.TabStop = true;
             this.panelEditorTextColor.Click += new System.EventHandler(this.PanelColor_Click);
             // 
@@ -300,7 +300,7 @@ namespace NFive.LogViewer
             this.groupBoxLevels.Location = new System.Drawing.Point(198, 287);
             this.groupBoxLevels.Name = "groupBoxLevels";
             this.groupBoxLevels.Size = new System.Drawing.Size(170, 241);
-            this.groupBoxLevels.TabIndex = 6;
+            this.groupBoxLevels.TabIndex = 4;
             this.groupBoxLevels.TabStop = false;
             this.groupBoxLevels.Text = "Output Levels";
             // 
@@ -425,7 +425,7 @@ namespace NFive.LogViewer
             this.groupBoxSyntax.Location = new System.Drawing.Point(12, 287);
             this.groupBoxSyntax.Name = "groupBoxSyntax";
             this.groupBoxSyntax.Size = new System.Drawing.Size(170, 241);
-            this.groupBoxSyntax.TabIndex = 5;
+            this.groupBoxSyntax.TabIndex = 3;
             this.groupBoxSyntax.TabStop = false;
             this.groupBoxSyntax.Text = "Syntax Highlighting";
             // 
@@ -586,7 +586,7 @@ namespace NFive.LogViewer
             this.buttonReset.Location = new System.Drawing.Point(12, 538);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(75, 23);
-            this.buttonReset.TabIndex = 8;
+            this.buttonReset.TabIndex = 5;
             this.buttonReset.Text = "&Reset";
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.ButtonReset_Click);
@@ -602,7 +602,7 @@ namespace NFive.LogViewer
             this.groupBoxServer.Location = new System.Drawing.Point(13, 113);
             this.groupBoxServer.Name = "groupBoxServer";
             this.groupBoxServer.Size = new System.Drawing.Size(355, 48);
-            this.groupBoxServer.TabIndex = 9;
+            this.groupBoxServer.TabIndex = 1;
             this.groupBoxServer.TabStop = false;
             this.groupBoxServer.Text = "FiveM Server";
             // 
@@ -617,7 +617,7 @@ namespace NFive.LogViewer
             0});
             this.numericUpDownServerPort.Name = "numericUpDownServerPort";
             this.numericUpDownServerPort.Size = new System.Drawing.Size(66, 20);
-            this.numericUpDownServerPort.TabIndex = 4;
+            this.numericUpDownServerPort.TabIndex = 3;
             this.numericUpDownServerPort.Value = new decimal(new int[] {
             1,
             0,
@@ -631,7 +631,7 @@ namespace NFive.LogViewer
             this.textBoxServerHost.Location = new System.Drawing.Point(44, 19);
             this.textBoxServerHost.Name = "textBoxServerHost";
             this.textBoxServerHost.Size = new System.Drawing.Size(197, 20);
-            this.textBoxServerHost.TabIndex = 3;
+            this.textBoxServerHost.TabIndex = 1;
             // 
             // labelServerPort
             // 
@@ -640,7 +640,7 @@ namespace NFive.LogViewer
             this.labelServerPort.Location = new System.Drawing.Point(247, 22);
             this.labelServerPort.Name = "labelServerPort";
             this.labelServerPort.Size = new System.Drawing.Size(29, 13);
-            this.labelServerPort.TabIndex = 1;
+            this.labelServerPort.TabIndex = 2;
             this.labelServerPort.Text = "Port:";
             // 
             // labelServerHost
