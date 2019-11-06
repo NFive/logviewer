@@ -24,13 +24,13 @@ namespace NFive.LogViewer
 
 		public string Content => this.scintilla.Text;
 
+		public int TotalLines => this.scintilla.Lines.Count;
+
 		public int CurrentLine
 		{
 			get => this.scintilla.CurrentLine + 1;
 			set => this.scintilla.Lines[value - 1].Goto();
 		}
-
-		public int TotalLines => this.scintilla.Lines.Count;
 
 		public bool WordWrap
 		{
@@ -119,6 +119,7 @@ namespace NFive.LogViewer
 				line.AnnotationText = log.DateTime.ToString("s");
 				line.MarginText = log.Level;
 
+				// ReSharper disable once SwitchStatementMissingSomeCases
 				switch (log.Level)
 				{
 					case "Trace":
@@ -148,20 +149,8 @@ namespace NFive.LogViewer
 		}
 
 		[DllImport("user32")]
+		// ReSharper disable once IdentifierTypo
 		private static extern int GetScrollInfo(IntPtr hwnd, int nBar, ref ScrollInfo scrollInfo);
-
-		[PublicAPI]
-		[SuppressMessage("ReSharper", "InconsistentNaming")]
-		private struct ScrollInfo
-		{
-			public int cbSize;
-			public int fMask;
-			public int min;
-			public int max;
-			public int nPage;
-			public int nPos;
-			public int nTrackPos;
-		}
 
 		private static bool ReachedBottom(IWin32Window scintilla)
 		{
@@ -310,6 +299,19 @@ namespace NFive.LogViewer
 
 			this.scintilla.Markers[4].Symbol = MarkerSymbol.FullRect;
 			this.scintilla.Markers[4].SetBackColor(style.LevelColors["Error"]);
+		}
+
+		[PublicAPI]
+		[SuppressMessage("ReSharper", "InconsistentNaming")]
+		private struct ScrollInfo
+		{
+			public int cbSize;
+			public int fMask;
+			public int min;
+			public int max;
+			public int nPage;
+			public int nPos;
+			public int nTrackPos;
 		}
 	}
 }

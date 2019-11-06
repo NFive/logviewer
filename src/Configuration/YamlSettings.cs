@@ -12,24 +12,6 @@ namespace NFive.LogViewer.Configuration
 		private static string directory = AppDomain.CurrentDomain.BaseDirectory;
 		private static T instance;
 
-		// ReSharper disable once StaticMemberInGenericType
-		public static string FileName { get; set; } = "settings.yml";
-
-		public static string Directory
-		{
-			get => directory;
-			set
-			{
-				if (!System.IO.Directory.Exists(value)) throw new DirectoryNotFoundException();
-
-				directory = value;
-			}
-		}
-
-		public static string Path => System.IO.Path.Combine(Directory, FileName);
-
-		public static bool FileExists => File.Exists(Path);
-
 		public static T Instance
 		{
 			get
@@ -55,6 +37,24 @@ namespace NFive.LogViewer.Configuration
 				}
 
 				return instance;
+			}
+		}
+
+		public static string Path => System.IO.Path.Combine(Directory, FileName);
+
+		public static bool FileExists => File.Exists(Path);
+
+		// ReSharper disable once StaticMemberInGenericType
+		public static string FileName { get; set; } = "settings.yml";
+
+		public static string Directory
+		{
+			get => directory;
+			set
+			{
+				if (!System.IO.Directory.Exists(value)) throw new DirectoryNotFoundException();
+
+				directory = value;
 			}
 		}
 

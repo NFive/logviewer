@@ -128,6 +128,7 @@ namespace NFive.LogViewer
 
 			this.openRecentToolStripMenuItem.DropDownItems.Clear();
 
+			// ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
 			foreach (var fileHistory in Settings.Instance.FileHistory)
 			{
 				var item = new ToolStripMenuItem
@@ -319,6 +320,7 @@ namespace NFive.LogViewer
 					Name = client.Key
 				};
 
+				// ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
 				foreach (var subMenu in client.Value)
 				{
 					var item = new ToolStripMenuItem
@@ -560,7 +562,7 @@ namespace NFive.LogViewer
 		{
 			(this.ActiveControl as RichPanel)?.Copy();
 		}
-		
+
 		private void GoToToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			using (var form = new GoTo((RichPanel)this.ActiveControl))

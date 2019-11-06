@@ -29,17 +29,17 @@ namespace NFive.LogViewer.Configuration
 		{
 			public Font Font { get; set; } = new Font(new FontFamily("Consolas"), 10, FontStyle.Regular, GraphicsUnit.Point);
 
-			public Color EditorBackground = 0xFF212121.ToColor();
+			public Color EditorBackground { get; set; } = 0xFF212121.ToColor();
 
-			public Color EditorText = 0xFFFFFFFF.ToColor();
+			public Color EditorText { get; set; } = 0xFFFFFFFF.ToColor();
 
-			public Color MarginBackground = 0xFF212121.ToColor();
+			public Color MarginBackground { get; set; } = 0xFF212121.ToColor();
 
-			public Color MarginText = 0xFFBBBBBB.ToColor();
+			public Color MarginText { get; set; } = 0xFFBBBBBB.ToColor();
 
-			public Color TextSelection = 0xFF264F78.ToColor();
+			public Color TextSelection { get; set; } = 0xFF264F78.ToColor();
 
-			public Dictionary<string, Color> LevelColors = new Dictionary<string, Color>
+			public Dictionary<string, Color> LevelColors { get; set; } = new Dictionary<string, Color>
 			{
 				{ "Trace", 0xFF2C2F33.ToColor() },
 				{ "Debug", 0xFF808080.ToColor() },
@@ -48,7 +48,7 @@ namespace NFive.LogViewer.Configuration
 				{ "Error", 0xFFE95378.ToColor() }
 			};
 
-			public Dictionary<string, Color> SyntaxColors = new Dictionary<string, Color>
+			public Dictionary<string, Color> SyntaxColors { get; set; } = new Dictionary<string, Color>
 			{
 				{ "Prefix", 0xFFD7AB4C.ToColor() },
 				{ "Number", 0xFF4EC9B0.ToColor() },
