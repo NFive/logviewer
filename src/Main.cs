@@ -29,6 +29,7 @@ namespace NFive.LogViewer
 		};
 
 		private readonly Dictionary<string, RichPanel> panels = new Dictionary<string, RichPanel>();
+		private RichPanel activePanel;
 		private LogFileMonitor monitor;
 
 		public Main(IEnumerable<string> args)
@@ -47,6 +48,15 @@ namespace NFive.LogViewer
 					((ToolStripMenuItem)this.windowsToolStripMenuItem.DropDownItems[$"level{level}ToolStripMenuItem"]).CheckState = hidden ? CheckState.Unchecked : CheckState.Checked;
 				});
 			}
+
+			this.dockPanel.ActivePaneChanged += (s, e) =>
+			{
+				if (!(((DockPanel)s).ActiveContent is RichPanel panel)) return;
+				if (this.activePanel == panel) return;
+
+				this.activePanel = panel;
+				this.quickFind.Panel = this.activePanel;
+			};
 
 			// Load file
 			var file = args.FirstOrDefault();
@@ -68,6 +78,7 @@ namespace NFive.LogViewer
 			SetupRecentFilesMenu();
 
 			if (Settings.Instance.ShowWelcomeTab) ShowWelcomeTab();
+
 		}
 
 		private void Main_Load(object sender, EventArgs e)
@@ -231,6 +242,7 @@ namespace NFive.LogViewer
 			// UI
 			this.saveToolStripMenuItem.Enabled = true;
 			this.copyToolStripMenuItem.Enabled = true;
+			this.findToolStripMenuItem.Enabled = true;
 			this.goToToolStripMenuItem.Enabled = true;
 			this.selectAllToolStripMenuItem.Enabled = true;
 			this.masterToolStripMenuItem.Enabled = true;
@@ -387,8 +399,11 @@ namespace NFive.LogViewer
 
 				this.saveToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible && p.Text != "Welcome");
 				this.copyToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible);
+				this.findToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible);
 				this.goToToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible);
 				this.selectAllToolStripMenuItem.Enabled = this.panels.Values.Any(p => p.Visible);
+
+				//this.quickFind.Panel = (RichPanel)this.ActiveControl;
 			};
 
 			panel.PositionChanged += (s, e) =>
@@ -402,7 +417,7 @@ namespace NFive.LogViewer
 				this.selectionToolStripStatusLabel.Text = $"Sel {Math.Abs(e.Position - e.Anchor)}";
 			};
 
-			var lastForm = this.dockPanel?.ActiveDocument?.DockHandler?.Form;
+			var lastForm = this.dockPanel.ActiveDocument?.DockHandler?.Form;
 
 			panel.Show(this.dockPanel);
 			panel.DockState = state;
@@ -563,6 +578,12 @@ namespace NFive.LogViewer
 			(this.ActiveControl as RichPanel)?.Copy();
 		}
 
+		private void FindToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.quickFind.Show();
+			this.quickFind.Focus();
+		}
+
 		private void GoToToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			using (var form = new GoTo((RichPanel)this.ActiveControl))
@@ -573,6 +594,12 @@ namespace NFive.LogViewer
 
 		private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (this.ActiveControl is QuickFind control)
+			{
+				control.SelectAll();
+				return;
+			}
+
 			(this.ActiveControl as RichPanel)?.SelectAll();
 		}
 

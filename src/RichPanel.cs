@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -24,7 +26,13 @@ namespace NFive.LogViewer
 
 		public string Content => this.scintilla.Text;
 
+		public int CurrentPosition => this.scintilla.CurrentPosition;
+
+		public int AnchorPosition => this.scintilla.AnchorPosition;
+
 		public int TotalLines => this.scintilla.Lines.Count;
+
+		public int TotalLength => this.scintilla.TextLength;
 
 		public int CurrentLine
 		{
@@ -187,6 +195,49 @@ namespace NFive.LogViewer
 		public void SelectAll()
 		{
 			this.scintilla.SelectAll();
+		}
+
+		public void SetSelection(int anchorPos, int currentPos)
+		{
+			this.scintilla.SetSel(anchorPos, currentPos);
+
+			this.PositionChanged?.Invoke(this, new PositionEventArgs(
+				this.scintilla.CurrentLine + 1,
+				this.scintilla.GetColumn(this.scintilla.CurrentPosition) + 1,
+				this.scintilla.CurrentPosition,
+				this.scintilla.AnchorPosition,
+				this.scintilla.Lines[this.scintilla.CurrentLine].AnnotationText,
+				this.scintilla.Lines[this.scintilla.CurrentLine].MarginText));
+		}
+
+		public CharacterRange Find(int startPos, int endPos, string searchString, SearchFlags flags)
+		{
+			if (string.IsNullOrEmpty(searchString)) return new CharacterRange();
+
+			this.scintilla.TargetStart = startPos;
+			this.scintilla.TargetEnd = endPos;
+			this.scintilla.SearchFlags = flags;
+			var pos = this.scintilla.SearchInTarget(searchString);
+
+			if (pos == -1) return new CharacterRange();
+
+			return new CharacterRange(this.scintilla.TargetStart, this.scintilla.TargetEnd);
+		}
+
+		public List<CharacterRange> FindAll(int startPos, int endPos, string searchString, SearchFlags flags)
+		{
+			var results = new List<CharacterRange>();
+
+			while (true)
+			{
+				var match = Find(startPos, endPos, searchString, flags);
+				if (match.First == match.Length) break;
+
+				results.Add(match);
+				startPos = match.Length;
+			}
+
+			return results;
 		}
 
 		private void scintilla_StyleNeeded(object sender, StyleNeededEventArgs e)
